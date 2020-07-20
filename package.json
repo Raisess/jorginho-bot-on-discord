@@ -4,6 +4,8 @@
   "description": "A jorginho bot discord version.",
   "main": "./build/index.js",
   "scripts": {
+		"start": "node ./build/index.js",
+		"compile": "tsc",
     "test": "jest"
   },
   "repository": {

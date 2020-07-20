@@ -1,0 +1,27 @@
+{
+  "name": "jorginho-bot-on-discord",
+  "version": "1.0.0",
+  "description": "A jorginho bot discord version.",
+  "main": "./build/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raisess/jorginho-bot-on-discord.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "chatbot"
+  ],
+  "author": "Raisess",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Raisess/jorginho-bot-on-discord/issues"
+  },
+  "homepage": "https://github.com/Raisess/jorginho-bot-on-discord#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  }
+}

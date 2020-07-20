@@ -13,6 +13,15 @@ const commands: Array<Command> = command();
 client.once('ready', (): boolean => {
 	console.log('jorginho bot is ready yaaah!');
 
+	// setting bot activity
+	client.user.setPresence({
+	  status: 'online',
+	  activity: {
+	    name: 'xvideos.com',
+	    type: 'WATCHING' //PLAYING: WATCHING: LISTENING: STREAMING:
+	  }
+	});
+
 	return true;
 });
 

@@ -3,7 +3,11 @@ import fetch from 'node-fetch';
 
 import { bot_token } from './credencials.json';
 
-import { Command, command } from './command';
+import messageEngine from './messageEngine';
+import {
+	Command,
+	command
+} from './command';
 
 // setup client and setup bot command prefix
 const client: Client = new Client();
@@ -53,7 +57,7 @@ client.on('message', (message: any): void => {
 			if (await data.success) {
 				const messageToSend = await data.command.message;
 
-				return message.channel.send(messageToSend);
+				return message.channel.send(messageEngine(message, messageToSend));
 			}
 
 			return;

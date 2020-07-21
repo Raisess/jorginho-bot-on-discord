@@ -4,8 +4,8 @@
   "description": "A jorginho bot discord version.",
   "main": "./build/index.js",
   "scripts": {
-		"start": "node ./build/index.js",
-		"compile": "tsc",
+    "start": "node ./build/index.js",
+    "compile": "tsc",
     "test": "jest"
   },
   "repository": {
@@ -25,5 +25,8 @@
   "homepage": "https://github.com/Raisess/jorginho-bot-on-discord#readme",
   "dependencies": {
     "discord.js": "^12.2.0"
+  },
+  "devDependencies": {
+    "node-fetch": "^2.6.0"
   }
 }

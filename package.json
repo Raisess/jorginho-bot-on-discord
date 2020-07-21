@@ -24,9 +24,10 @@
   },
   "homepage": "https://github.com/Raisess/jorginho-bot-on-discord#readme",
   "dependencies": {
-    "discord.js": "^12.2.0"
+    "discord.js": "^12.2.0",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
-    "node-fetch": "^2.6.0"
+    "@types/node-fetch": "^2.5.7"
   }
 }

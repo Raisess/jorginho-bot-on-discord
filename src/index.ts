@@ -65,7 +65,7 @@ client.on('message', (message: any): void => {
 				return sendMessageFunction(messageEngine(message, messageToSend));
 			}
 
-			return sendMessageFunction('404 - Not Found, comando inexistente nesse servidor...');
+			return sendMessageFunction('**404 - Not Found**, comando inexistente nesse servidor...');
 		})(guild, sendMessageFunction, message, args);
 	}
 });

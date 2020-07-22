@@ -41,14 +41,15 @@ client.on('message', (message: any): void => {
 	const args: Array<string> = message.content.slice(1).trim().split(' ');
 	const sendMessageFunction = (text: string): any => message.channel.send(text);
 
+	// check if message has a command
 	if (message.content.startsWith(CMD_PREFIX)){
 		// console.log(args);
 		for (let _cmd of commands) {
 			if (args[0] == _cmd.cmd) {
 				return _cmd.func({
 					message: message,
-					args: args.slice(1),
-					uri: uri
+					args:    args.slice(1),
+					uri:     uri
 				});
 			}
 		}

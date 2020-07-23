@@ -3,12 +3,14 @@ import { Client } from 'discord.js';
 import { server } from './commands/server.cmd';
 import { createCommand } from './commands/createCommand.cmd';
 import { getAllCommands } from './commands/getAllCommands.cmd';
+import { setPresence } from './commands/setPresence.cmd';
 
 interface Params {
 	message: any;
 	args?: Array<string> | undefined;
 	uri?: string | undefined;
 	prefix?: string | undefined;
+	client: Client;
 }
 
 export interface Command {
@@ -33,6 +35,11 @@ export const command = (): Array<Command> => {
 			cmd: 'commands',
 			description: 'Ver os comandos do servidor.',
 			func: async (param: Params): Promise<void> => await getAllCommands(param.message, param.uri, param.prefix)
+		},
+		{
+			cmd: 'presence',
+			description: 'Mudar a atividade do bot.',
+			func: (param: Params): void => setPresence(param.message, param.args, param.client)
 		}
 	]
 }

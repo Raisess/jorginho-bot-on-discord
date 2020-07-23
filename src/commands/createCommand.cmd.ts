@@ -12,16 +12,16 @@ export const createCommand = async (message: any, args: Array<string> | undefine
 
 	// console.log(command);
 
-	const request = await fetch(`${uri}/command/create`, {
+	const request: any = await fetch(`${uri}/command/create`, {
 		method: 'post',
 		body: JSON.stringify(command),
 		headers: { 'Content-Type': 'application/json' }
 	});
-	const data = await request.json();
+	const data: any = await request.json();
 
-	if (await data.success) {
-		return message.channel.send(`comando !${command.command} criado com sucesso!`);
+	if (data.success) {
+		return message.channel.send(`Comando !${command.command} criado com sucesso!`);
 	}
 
-	return message.channel.send('ops não consegui criar o comando, tente novamente...');
+	return message.channel.send('Oops não consegui criar o comando, tente novamente...');
 }

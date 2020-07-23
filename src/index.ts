@@ -37,7 +37,7 @@ client.once('ready', (): boolean => {
 client.on('message', (message: any): void => {
 	if (message.author.bot) return;
 	// main definitions
-	const guild: string = message.guild.name.toLowerCase().replace(/\s+/g, '_');
+	const guild: string = message.guild.name;
 	const args: Array<string> = message.content.slice(1).trim().split(' ');
 	const sendMessageFunction = (text: string): any => message.channel.send(text);
 
@@ -49,7 +49,9 @@ client.on('message', (message: any): void => {
 				return _cmd.func({
 					message: message,
 					args:    args.slice(1),
-					uri:     uri
+					uri:     uri,
+					prefix:  CMD_PREFIX,
+					client:  client
 				});
 			}
 		}
@@ -57,11 +59,11 @@ client.on('message', (message: any): void => {
 		// get commands from API
 		(async (guildName: string, sendMsgFunc: any, message: any, argsList: Array<string>): Promise<void> => {
 			// api fetch
-			const request = await fetch(`${uri}/command/get/${guildName}/${argsList[0]}`);
-			const data = await request.json();
+			const request: any = await fetch(`${uri}/command/get/${guildName}/${argsList[0]}`);
+			const data: any = await request.json();
 
-			if (await data.success) {
-				const messageToSend = await data.command.message;
+			if (data.success) {
+				const messageToSend: string = await data.command.message;
 
 				return sendMessageFunction(messageEngine(message, messageToSend));
 			}

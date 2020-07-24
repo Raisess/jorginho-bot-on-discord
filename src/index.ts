@@ -3,7 +3,11 @@ import fetch from 'node-fetch';
 
 import { bot_token } from './credencials.json';
 
-import messageEngine from './messageEngine';
+import {
+	messageEngine,
+	MessageEngineCommand
+} from './messageEngine';
+
 import {
 	Command,
 	command
@@ -63,9 +67,9 @@ client.on('message', (message: any): void => {
 			const data: any = await request.json();
 
 			if (data.success) {
-				const messageToSend: string = await data.command.message;
+				const messageData: MessageEngineCommand = await data.command;
 
-				return sendMessageFunction(messageEngine(message, messageToSend));
+				return sendMessageFunction(messageEngine(message, messageData));
 			}
 
 			return sendMessageFunction('**404 - Not Found**, comando inexistente nesse servidor...');

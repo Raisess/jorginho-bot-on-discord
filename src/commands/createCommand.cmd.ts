@@ -4,10 +4,11 @@ export const createCommand = async (message: any, args: Array<string> | undefine
 	const getMessageText: string = args ? args.slice(1).join(' ') : '';
 
 	const command = {
-		guild: message.guild.name,
-		creator: message.author.username,
-		command: args ? args[0] : '',
-		message: getMessageText
+		guild:       message.guild.name,
+		creator_id:  message.author.id,
+		creator:     message.author.username,
+		command:     args ? args[0] : '',
+		message:     getMessageText
 	};
 
 	// console.log(command);

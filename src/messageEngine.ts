@@ -11,8 +11,7 @@ export interface MessageEngineCommand {
 export const messageEngine = (_message: any, messageData: MessageEngineCommand): string => {
 	const { creator_id, message } = messageData;
 	// replace words
-	let customMessage: string = message.replace(/\{username}/g, `<@${_message.author.id}>`);
-	customMessage = message.replace(/\{me}/g, `<@${creator_id}>`);
+	const customMessage: string = message.replace(/({username})/g, `<@${_message.author.id}>`).replace(/({me})/g, `<@${creator_id}>`);
 
 	return customMessage;
 }

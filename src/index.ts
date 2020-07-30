@@ -20,7 +20,7 @@ const CMD_PREFIX: string = '!';
 // setup all bot commands
 const commands: Array<Command> = command();
 // bot API uri
-const uri: string = 'http://localhost:1939';
+const uri: string = 'https://api-jorginhobot.herokuapp.com';
 
 // on bot init
 client.once('ready', (): boolean => {
@@ -30,8 +30,8 @@ client.once('ready', (): boolean => {
 	client.user.setPresence({
 	  status: 'online',
 	  activity: {
-	    name: 'xvideos.com',
-	    type: 'WATCHING' //PLAYING: WATCHING: LISTENING: STREAMING:
+	    name: 'Spotify',
+	    type: 'LISTENING' // PLAYING: WATCHING: LISTENING: STREAMING:
 	  }
 	});
 

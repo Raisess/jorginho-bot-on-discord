@@ -7,6 +7,7 @@ import { getAllCommands } from './commands/getAllCommands.cmd';
 import { setPresence } from './commands/setPresence.cmd';
 import { play } from './commands/play.cmd'
 import { insta } from './commands/insta.cmd';
+import { img } from './commands/img.cmd';
 
 interface Params {
 	message: any;
@@ -48,6 +49,11 @@ export const command = (): Array<Command> => {
 			cmd: 'insta',
 			description: 'Buscar a foto de perfil de alguem no instagram',
 			func: (param: Params): void => insta(param.message, param.args)
+		},
+		{
+			cmd: 'img',
+			description: 'Buscar uma imagem aleatoria',
+			func: async (param: Params): Promise<void> => await img(param.message, param.args)
 		},
 		{
 			cmd: 'create',

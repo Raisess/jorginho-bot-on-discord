@@ -7,7 +7,13 @@ export const play = async (message: any, args: Array<string> | undefined, client
 	const connection = await voiceChannel.join();
 
 	const music: string = args ? args[0] : '';
-	const musicId: string = music.split('=')[1];
+	let musicId: Array<string>;
+
+	if (music.split('/').indexOf('youtu.be') != -1) {
+		musicId = ['cell', music.split('be/')[1]];
+	} else {
+		musicId = ['pc', music.split('=')[1]];
+	}
 
   console.log('joined channel');
 
@@ -15,14 +21,14 @@ export const play = async (message: any, args: Array<string> | undefined, client
 		console.log('sopping music');
 		voiceChannel.leave();
 
-		message.channel.send(`Tá bem <@${message.author.id}>, eu paro seu chato`);
+		message.channel.send(`Tá bem <@${message.author.id}>, eu paro chatx`);
 
 		return true;
 	} else {
-		console.log('trying to play:', music);
+		console.log('trying to play:', music, 'link type:' musicId[0]);
 
-  	const stream = await ytdl(music, { filter: 'audioonly', quality: 'lowest' });
-		const info = await ytdl.getInfo(musicId);
+  	const stream = await ytdl(music, { filter: 'audioonly', quality: 'lowestaudio' });
+		const info = await ytdl.getInfo(musicId[1]);
   	const dispatcher = connection.play(stream, streamOptions);
 
 		const musicName: string = info.player_response.videoDetails.title;

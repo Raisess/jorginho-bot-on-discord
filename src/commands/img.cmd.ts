@@ -10,6 +10,10 @@ export const img = async (message: any, args: Array<string> | undefined): Promis
 	const allImages: Array<any> = await response.hits;
 	const randomImg: any = await allImages[Math.round(Math.random() * allImages.length - 1)];
 
-	return message.channel.send(randomImg.webformatURL);
+	try {
+		return message.channel.send(randomImg.webformatURL);
+	} catch (e) {
+		return message.channel.send(`Não achei imagens de: ${args ? args.join(' ') : ''}`);
+	}
 }
 

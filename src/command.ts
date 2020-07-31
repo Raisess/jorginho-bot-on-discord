@@ -6,6 +6,7 @@ import { createCommand } from './commands/createCommand.cmd';
 import { getAllCommands } from './commands/getAllCommands.cmd';
 import { setPresence } from './commands/setPresence.cmd';
 import { play } from './commands/play.cmd'
+import { insta } from './commands/insta.cmd';
 
 interface Params {
 	message: any;
@@ -42,6 +43,11 @@ export const command = (): Array<Command> => {
 			cmd: 'play',
 			description: 'Tocar uma musica',
 			func: async (param: Params): Promise<boolean> => await play(param.message, param.args, param.client)
+		},
+		{
+			cmd: 'insta',
+			description: 'Buscar a foto de perfil de alguem no instagram',
+			func: (param: Params): void => insta(param.message, param.args)
 		},
 		{
 			cmd: 'create',

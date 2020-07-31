@@ -22,6 +22,8 @@ export const play = async (message: any, args: Array<string> | undefined, client
 		connection.destroy();
 		voiceChannel.leave();
 
+		message.channel.send(`Tá bem <@${message.author.id}>, eu paro seu chato`);
+
 		return true;
 	}
 

@@ -30,11 +30,15 @@ export const play = async (message: any, args: Array<string> | undefined, client
     console.log('left channel');
     voiceChannel.leave();
 
+		message.channel.send('Cabou a música, põe outra ae cria');
+
 		return true;
   });
 
 	dispatcher.on('error', (err: any) => {
 		console.error(err);
+
+		message.channel.send('Eii boy a música miou aqui, e agr???');
 
 		return false;
 	});

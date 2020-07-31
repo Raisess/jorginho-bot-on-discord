@@ -6,21 +6,26 @@ export const play = async (message: any, args: Array<string> | undefined, client
 	const voiceChannel = message.member.voice.channel;
 	
 	const connection = await voiceChannel.join();
-	const music = args ? args[0] : '';
+	const music: string = args ? args[0] : '';
+	const musicId: string = music.split('=')[1];
 
   console.log('joined channel');
 	console.log('trying to play:', music);
 
-  const stream = await ytdl(music, { filter: 'audioonly', quality: 'lowestaudio' });
+  const stream = await ytdl(music, { filter: 'audioonly', quality: 'lowest' });
+	const info = await ytdl.getInfo(musicId);
   const dispatcher = connection.play(stream, streamOptions);
 
 	dispatcher.on('start', () => {
 		console.log(music, 'is now playing!');
+		// console.log('info:', info.player_response.videoDetails);
+
+		const musicName: string = info.player_response.videoDetails.title;
 
 		client.user.setPresence({
 			status: 'online',
 			activity: {
-				name: 'Youtube',
+				name: musicName,
 				type: 'LISTENING'
 			}
 		});

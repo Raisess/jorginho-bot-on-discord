@@ -16,11 +16,18 @@ export const play = async (message: any, args: Array<string> | undefined, client
 	const info = await ytdl.getInfo(musicId);
   const dispatcher = connection.play(stream, streamOptions);
 
-	dispatcher.on('start', () => {
-		console.log(music, 'is now playing!');
-		// console.log('info:', info.player_response.videoDetails);
+	const musicName: string = info.player_response.videoDetails.title;
 
-		const musicName: string = info.player_response.videoDetails.title;
+	if (music == 'stop') {
+		connection.destroy();
+		voiceChannel.leave();
+
+		return true;
+	}
+
+	dispatcher.on('start', () => {
+		console.log(musicName, 'is now playing!');
+		// console.log('info:', info.player_response.videoDetails);
 
 		client.user.setPresence({
 			status: 'online',

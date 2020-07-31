@@ -25,7 +25,7 @@ export const play = async (message: any, args: Array<string> | undefined, client
 
 		return true;
 	} else {
-		console.log('trying to play:', music, 'link type:' musicId[0]);
+		console.log('trying to play:', music, 'link type:', musicId[0]);
 
   	const stream = await ytdl(music, { filter: 'audioonly', quality: 'lowestaudio' });
 		const info = await ytdl.getInfo(musicId[1]);

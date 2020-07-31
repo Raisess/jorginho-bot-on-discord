@@ -35,5 +35,5 @@ export const setPresence = (message: any, args: Array<string> | undefined, clien
 		helpMessageArr.push(`${modesDesc.indexOf(mode)}: ${mode}\n`);
 	}
 
-	return message.channel.send(`Lista de modos de presença:\n${helpMessageArr.join(' ')}`);
+	return message.channel.send(`Lista de modos de presença:\n${helpMessageArr.join('')}`);
 }

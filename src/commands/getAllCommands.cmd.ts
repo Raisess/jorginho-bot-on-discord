@@ -16,7 +16,7 @@ export const getAllCommands = async (message: any, uri: string | undefined, pref
 		}
 
 		// generate a string with commands
-		let commandsList: string = commands.join(' ');
+		let commandsList: string = commands.join('');
 
 		return message.channel.send(`Lista de comandos de ${guild}:\n${commandsList}`);
 	}

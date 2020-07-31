@@ -14,7 +14,6 @@ export const play = async (message: any, args: Array<string> | undefined, client
 	if (music == 'stop') {
 		console.log('sopping music');
 		voiceChannel.leave();
-		connection.destroy();
 
 		message.channel.send(`Tá bem <@${message.author.id}>, eu paro seu chato`);
 

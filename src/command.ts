@@ -8,6 +8,7 @@ import { setPresence } from './commands/setPresence.cmd';
 import { play } from './commands/play.cmd'
 import { insta } from './commands/insta.cmd';
 import { img } from './commands/img.cmd';
+import { indication_ } from './commands/netflix.cmd';
 
 interface Params {
 	message: any;
@@ -54,6 +55,11 @@ export const command = (): Array<Command> => {
 			cmd: 'img',
 			description: 'Buscar uma imagem aleatoria',
 			func: async (param: Params): Promise<void> => await img(param.message, param.args)
+		},
+		{
+			cmd: 'indication',
+			description: 'Indicação de filme ou série',
+			func: async (param: Params): Promise<void> => await indication_(param.message)
 		},
 		{
 			cmd: 'create',

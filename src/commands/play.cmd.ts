@@ -8,7 +8,9 @@ export const play = async (message: any, args: Array<string> | undefined, client
 	const music: string = args ? args.join(' ') : '';
 	let musicId: Array<string>;
 
-	console.log('joined channel');
+	//console.log('joined channel');
+	
+	message.channel.send(`Calma tô caçando aqui essa música: ${music}...`);
 
 	// play music with direct link
 	if (music.startsWith('https://')) {
@@ -18,13 +20,13 @@ export const play = async (message: any, args: Array<string> | undefined, client
 			musicId = ['pc', music.split('=')[1]];
 		}
 
-		console.log('trying to play:', music, 'link type:', musicId[0]);
+		//console.log('trying to play:', music, 'link type:', musicId[0]);
 
 		return playMusic(message, client, music, musicId, voiceChannel);
 	} else {
 		// play music with name
 		if (music == 'stop') {
-			console.log('stopping music');
+			//console.log('stopping music');
 			voiceChannel.leave();
 
 			message.channel.send(`Tá bem <@${message.author.id}>, eu paro chatx`);
@@ -37,7 +39,7 @@ export const play = async (message: any, args: Array<string> | undefined, client
 
 				musicId = ['pc', await videoUrl.split('=')[1]];
 
-				console.log('trying to play:', videoUrl, 'link type:', musicId[0]);
+				//console.log('trying to play:', videoUrl, 'link type:', musicId[0]);
 
 				return playMusic(message, client, videoUrl, musicId, voiceChannel);
 			});
@@ -59,7 +61,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 
 	// on music starts
 	dispatcher.on('start', () => {
-		console.log(musicName, 'is now playing!');
+		//console.log(musicName, 'is now playing!');
 
 		client.user.setPresence({
 			status: 'online',
@@ -75,7 +77,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 
 	// on music ends
  	dispatcher.on('finish', (end: any) => {
-   	console.log('left channel');
+   	//console.log('left channel');
    	voiceChannel.leave();
 
 		message.channel.send('Cabou a música, põe outra ae cria');
@@ -93,7 +95,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 
 	// on music error
 	dispatcher.on('error', (err: any) => {
-		console.error(err);
+		//console.error(err);
 
 		message.channel.send('Eii boy a música miou aqui, e agr???');
 

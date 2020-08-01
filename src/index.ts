@@ -3,15 +3,20 @@ import fetch from 'node-fetch';
 
 import { bot_token } from './credencials.json';
 
+// message filters
 import {
 	messageEngine,
 	MessageEngineCommand
 } from './messageEngine';
 
+// commands
 import {
 	Command,
 	command
 } from './command';
+
+// conversation module
+import conversation from './modules/botIA';
 
 // setup client and setup bot command prefix
 const client: Client = new Client();
@@ -74,6 +79,12 @@ client.on('message', (message: any): void => {
 
 			return sendMessageFunction('**404 - Not Found**, comando inexistente nesse servidor...');
 		})(guild, sendMessageFunction, message, args);
+	} else {
+		(async (question: string) => {
+			const botMessage: string = await conversation(question);
+
+			return message.channel.send(botMessage);
+		})(message.content);
 	}
 });
 

@@ -3,11 +3,6 @@ import fetch from 'node-fetch';
 
 import { bot_token } from './credencials.json';
 
-// server dependencies
-import express from 'express';
-import cors from 'cors';
-import { PORT } from './config';
-
 // message filters
 import {
 	messageEngine,
@@ -94,13 +89,4 @@ client.on('message', (message: any): void => {
 });
 
 client.login(bot_token);
-
-// the server
-const app = express();
-
-app.use(cors());
-
-app.get('/', (req, res) => res.json({ ping: 'pong' }));
-
-app.listen(PORT, () => console.log('running on port:', PORT));
 

@@ -9,8 +9,10 @@ export const play = async (message: any, args: Array<string> | undefined, client
 	let musicId: Array<string>;
 
 	//console.log('joined channel');
-	
-	message.channel.send(`Calma tô caçando aqui essa música: ${music}...`);
+
+	if (music != 'stop') {
+		message.channel.send(`Calma tô caçando aqui essa música: ${music}...`);
+	}
 
 	// play music with direct link
 	if (music.startsWith('https://')) {

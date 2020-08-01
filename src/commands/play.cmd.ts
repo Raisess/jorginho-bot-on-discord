@@ -24,7 +24,7 @@ export const play = async (message: any, args: Array<string> | undefined, client
 	} else {
 		// play music with name
 		if (music == 'stop') {
-			console.log('sopping music');
+			console.log('stopping music');
 			voiceChannel.leave();
 
 			message.channel.send(`Tá bem <@${message.author.id}>, eu paro chatx`);
@@ -55,7 +55,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 
 	// music info
 	const musicName: string = info.player_response.videoDetails.title;
-	const thumbnail: string = info.player_response.videoDetails.thumbnail_url;
+	const thumbnail: string = info.player_response.videoDetails.thumbnail.thumbnails[3].url
 
 	// on music starts
 	dispatcher.on('start', () => {

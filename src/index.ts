@@ -43,6 +43,16 @@ client.once('ready', (): boolean => {
 	return true;
 });
 
+// on new user enter the server
+client.on('guildMemberAdd', member => {
+ 	const channel = member.guild.channels.cache.find(ch => ch.name === 'general' || 'welcome');
+	if (!channel) return;
+
+	const serverName = member.guild.name;
+	channel.send(`Bem vindo ao ${serverName}, ${member}!`);
+});
+
+// on send message
 client.on('message', (message: any): void => {
 	if (message.author.bot) return;
 	// main definitions

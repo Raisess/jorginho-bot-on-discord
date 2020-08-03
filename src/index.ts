@@ -44,16 +44,16 @@ client.once('ready', (): boolean => {
 });
 
 // on new user enter the server
-client.on('guildMemberAdd', member => {
- 	const channel = member.guild.channels.cache.find(ch => ch.name === 'general' || 'welcome');
+client.on('guildMemberAdd', (member: any): void => {
+ 	const channel = member.guild.channels.cache.find((ch: any) => ch.name == 'geral' || ch.name == 'general' || ch.name == 'welcome');
 	if (!channel) return;
 
 	const serverName = member.guild.name;
-	channel.send(`Bem vindo ao ${serverName}, ${member}!`);
+	return channel.send(`Bem vindo ao servidor ${serverName}, ${member}!`);
 });
 
 // on send message
-client.on('message', (message: any): void => {
+client.on('message', (message: any): void | boolean => {
 	if (message.author.bot) return;
 	// main definitions
 	const guild: string = message.guild.name;
@@ -62,7 +62,12 @@ client.on('message', (message: any): void => {
 
 	// check if message has a command
 	if (message.content.startsWith(CMD_PREFIX)){
-		// console.log(args);
+		// test user join
+		if (args[0] == 'join') {
+			return client.emit('guildMemberAdd', message.member);
+		}
+
+		// loop primitive commands
 		for (let _cmd of commands) {
 			if (args[0] == _cmd.cmd) {
 				return _cmd.func({
@@ -75,7 +80,7 @@ client.on('message', (message: any): void => {
 			}
 		}
 
-		// get commands from API
+		// get custom commands from API
 		(async (guildName: string, sendMsgFunc: any, message: any, argsList: Array<string>): Promise<void> => {
 			// api fetch
 			const request: any = await fetch(`${uri}/command/get/${guildName}/${argsList[0]}`);
@@ -90,6 +95,7 @@ client.on('message', (message: any): void => {
 			return sendMessageFunction('**404 - Not Found**, comando inexistente nesse servidor...');
 		})(guild, sendMessageFunction, message, args);
 	} else {
+		// bot normal conversation
 		(async (question: string) => {
 			const botMessage: string = await conversation(question);
 

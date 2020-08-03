@@ -56,7 +56,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 		const streamOptions = {
 			volume: false,
 			type: 'opus',
-			highWaterMark: 150
+			highWaterMark: 50
 		};
 
 		const stream = await ytdl(music, {

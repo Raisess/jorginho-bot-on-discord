@@ -45,8 +45,17 @@ export const play = async (message: any, args: Array<string> | undefined, client
 
 const playMusic = async (message: any, client: Client, music: string, musicId: Array<string>, voiceChannel: any): Promise<boolean | any> => {	
 	try {
-		const streamOptions = { volume: false, type: 'opus', highWaterMark: 100 };
-		const stream = await ytdl(music, { filter: 'audioonly', quality: 'highestaudio' });
+		const streamOptions = {
+			volume: false,
+			type: 'opus',
+			highWaterMark: 150
+		};
+
+		const stream = await ytdl(music, {
+			filter: 'audioonly',
+			quality: 'highestaudio'
+		});
+
 		const info = await ytdl.getInfo(musicId[1]);
  		// voice connection
 		const connection = await voiceChannel.join();

@@ -29,6 +29,14 @@ export const play = async (message: any, args: Array<string> | undefined, client
 			voiceChannel.leave();
 			message.channel.send(`Tá bem <@${message.author.id}>, eu paro chatx`);
 
+			client.user.setPresence({
+				status: 'online',
+				activity: {
+					name: 'Youtube',
+					type: 'WATCHING'
+				}
+			});
+
 			return true;
 		} else {
 			yts(music, async (err: any, res: any): Promise<boolean> => {

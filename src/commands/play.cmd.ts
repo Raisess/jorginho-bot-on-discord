@@ -54,7 +54,7 @@ export const play = async (message: any, args: Array<string> | undefined, client
 const playMusic = async (message: any, client: Client, music: string, musicId: Array<string>, voiceChannel: any): Promise<boolean | any> => {	
 	try {
 		const streamOptions = {
-			volume: false,
+			volume: 1,
 			type: 'opus',
 			highWaterMark: 50
 		};

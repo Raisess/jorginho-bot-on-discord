@@ -104,5 +104,11 @@ client.on('message', (message: any): void | boolean => {
 	}
 });
 
+// ignore some errors
+process.on('uncaughtException', (err: any) => {
+  console.log(err);
+	return;
+})
+
 client.login(bot_token);
 

@@ -1,5 +1,5 @@
 import { Client } from 'discord.js';
-import ytdl from 'ytdl-core';
+import ytdl from 'ytdl-core-discord';
 import yts from 'yt-search';
 
 export const play = async (message: any, args: Array<string> | undefined, client: Client): Promise<boolean | any> => {
@@ -22,15 +22,11 @@ export const play = async (message: any, args: Array<string> | undefined, client
 			musicId = ['pc', music.split('=')[1]];
 		}
 
-		//console.log('trying to play:', music, 'link type:', musicId[0]);
-
 		return playMusic(message, client, music, musicId, voiceChannel);
 	} else {
 		// play music with name
 		if (music == 'stop') {
-			//console.log('stopping music');
 			voiceChannel.leave();
-
 			message.channel.send(`Tá bem <@${message.author.id}>, eu paro chatx`);
 
 			return true;
@@ -41,8 +37,6 @@ export const play = async (message: any, args: Array<string> | undefined, client
 
 				musicId = ['pc', await videoUrl.split('=')[1]];
 
-				//console.log('trying to play:', videoUrl, 'link type:', musicId[0]);
-
 				return playMusic(message, client, videoUrl, musicId, voiceChannel);
 			});
 		}
@@ -50,58 +44,58 @@ export const play = async (message: any, args: Array<string> | undefined, client
 }
 
 const playMusic = async (message: any, client: Client, music: string, musicId: Array<string>, voiceChannel: any): Promise<boolean | any> => {	
-	const streamOptions = { volume: 1 };
-	const stream = await ytdl(music, { filter: 'audioonly', quality: 'highestaudio' });
-	const info = await ytdl.getInfo(musicId[1]);
- 	// voice connection
-	const connection = await voiceChannel.join();
-	const dispatcher = connection.play(stream, streamOptions);
+	try {
+		const streamOptions = { volume: false, type: 'opus', highWaterMark: 100 };
+		const stream = await ytdl(music, { filter: 'audioonly', quality: 'highestaudio' });
+		const info = await ytdl.getInfo(musicId[1]);
+ 		// voice connection
+		const connection = await voiceChannel.join();
+		const dispatcher = connection.play(stream, streamOptions);
 
-	// music info
-	const musicName: string = info.player_response.videoDetails.title;
-	const thumbnail: string = info.player_response.videoDetails.thumbnail.thumbnails[3].url
+		// music info
+		const musicName: string = info.player_response.videoDetails.title;
+		const thumbnail: string = info.player_response.videoDetails.thumbnail.thumbnails[3].url
 
-	// on music starts
-	dispatcher.on('start', () => {
-		//console.log(musicName, 'is now playing!');
+		// on music starts
+		dispatcher.on('start', () => {
+			client.user.setPresence({
+				status: 'online',
+				activity: {
+					name: musicName,
+					type: 'LISTENING'
+				}
+			});
 
-		client.user.setPresence({
-			status: 'online',
-			activity: {
-				name: musicName,
-				type: 'LISTENING'
-			}
+			message.channel.send(`Tocando: ${musicName}`);
+			message.channel.send(thumbnail);
 		});
 
-		message.channel.send(`Tocando: ${musicName}`);
-		message.channel.send(thumbnail);
-	});
+		// on music ends
+ 		dispatcher.on('finish', (end: any) => {
+   		voiceChannel.leave();
+			message.channel.send('Cabou a música, põe outra ae cria');
 
-	// on music ends
- 	dispatcher.on('finish', (end: any) => {
-   	//console.log('left channel');
-   	voiceChannel.leave();
+			client.user.setPresence({
+				status: 'online',
+				activity: {
+					name: 'Youtube',
+					type: 'WATCHING'
+				}
+			});
 
-		message.channel.send('Cabou a música, põe outra ae cria');
+			return true;
+ 		});
 
-		client.user.setPresence({
-			status: 'online',
-			activity: {
-				name: 'Youtube',
-				type: 'WATCHING'
-			}
+		// on music error
+		dispatcher.on('error', (err: any) => {
+			message.channel.send('Eii boy a música miou aqui, e agr???');
+
+			return false;
 		});
+	} catch (e) {
+		message.channel.send('Eu não sou nenhum gênio ou algo parecido, mas aparentemente você tem q estar no voice pra me ouvir não acha?');
 
 		return true;
- 	});
-
-	// on music error
-	dispatcher.on('error', (err: any) => {
-		//console.error(err);
-
-		message.channel.send('Eii boy a música miou aqui, e agr???');
-
-		return false;
-	});
+	}
 }
 

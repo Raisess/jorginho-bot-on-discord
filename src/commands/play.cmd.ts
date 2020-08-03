@@ -54,9 +54,9 @@ export const play = async (message: any, args: Array<string> | undefined, client
 const playMusic = async (message: any, client: Client, music: string, musicId: Array<string>, voiceChannel: any): Promise<boolean | any> => {	
 	try {
 		const streamOptions = {
-			volume: 1,
+			volume: false,
 			type: 'opus',
-			highWaterMark: 50
+			highWaterMark: 100
 		};
 
 		const stream = await ytdl(music, {

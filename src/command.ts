@@ -9,6 +9,7 @@ import { play } from './commands/play.cmd'
 import { insta } from './commands/insta.cmd';
 import { img } from './commands/img.cmd';
 import { indication_ } from './commands/netflix.cmd';
+import { translateCommand } from './commands/translate.cmd';
 
 interface Params {
 	message: any;
@@ -60,6 +61,11 @@ export const command = (): Array<Command> => {
 			cmd: 'indication',
 			description: 'Indicação de filme ou série',
 			func: async (param: Params): Promise<void> => await indication_(param.message)
+		},
+		{
+			cmd: 'translate',
+			description: 'Traduzir algo, ex: !translate eng por you are ok?',
+			func: async (param: Params): Promise<void> => await translateCommand(param.message, param.args)
 		},
 		{
 			cmd: 'create',

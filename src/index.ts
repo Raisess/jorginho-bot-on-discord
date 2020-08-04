@@ -45,7 +45,7 @@ client.once('ready', (): boolean => {
 
 // on new user enter the server
 client.on('guildMemberAdd', (member: any): void => {
- 	const channel = member.guild.channels.cache.find((ch: any) => ch.name == 'welcomes');
+ 	const channel = member.guild.channels.cache.find((ch: any) => ch.name == 'welcomes' || ch.name == 'geral' || ch.name == 'general' || ch.name == 'boas-vindas');
 	if (!channel) return;
 
 	const serverName = member.guild.name;

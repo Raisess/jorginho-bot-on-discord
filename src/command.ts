@@ -10,6 +10,7 @@ import { insta } from './commands/insta.cmd';
 import { img } from './commands/img.cmd';
 import { indication_ } from './commands/netflix.cmd';
 import { translateCommand } from './commands/translate.cmd';
+import { ping } from './commands/ping.cmd';
 
 interface Params {
 	message: any;
@@ -66,6 +67,11 @@ export const command = (): Array<Command> => {
 			cmd: 'translate',
 			description: 'Traduzir algo, ex: !translate eng por you are ok?',
 			func: async (param: Params): Promise<void> => await translateCommand(param.message, param.args)
+		},
+		{
+			cmd: 'ping',
+			description: 'Checar o ping do bot',
+			func: async (param: Params): Promise<void> => await ping(param.message, param.client)
 		},
 		{
 			cmd: 'create',

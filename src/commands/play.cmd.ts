@@ -1,6 +1,8 @@
-import { Client } from 'discord.js';
+import { Client, MessageEmbed } from 'discord.js';
 import ytdl from 'ytdl-core-discord';
 import yts from 'yt-search';
+
+import { colors } from '../utils/colors';
 
 export const play = async (message: any, args: Array<string> | undefined, client: Client): Promise<boolean | any> => {
 	const voiceChannel = message.member.voice.channel;
@@ -71,7 +73,8 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 
 		// music info
 		const musicName: string = info.player_response.videoDetails.title;
-		const thumbnail: string = info.player_response.videoDetails.thumbnail.thumbnails[3].url
+		const thumbnail: string = info.player_response.videoDetails.thumbnail.thumbnails[3].url;
+		const author:    string = info.player_response.videoDetails.author;
 
 		// on music starts
 		dispatcher.on('start', () => {
@@ -83,8 +86,15 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 				}
 			});
 
-			message.channel.send(`Tocando: ${musicName}`);
-			message.channel.send(thumbnail);
+			const embed = new MessageEmbed()
+				.setColor(colors[Math.round(Math.random() * colors.length - 1)])
+				.setTitle(musicName)
+				.setURL(music)
+				.setImage(thumbnail)
+				.addField('Música', musicName)
+				.addField('Autor', author);
+			
+			message.channel.send(embed);
 		});
 
 		// on music ends

@@ -11,6 +11,7 @@ import { img } from './commands/img.cmd';
 import { indication_ } from './commands/netflix.cmd';
 import { translateCommand } from './commands/translate.cmd';
 import { ping } from './commands/ping.cmd';
+import { evalCommand } from './commands/eval.cmd';
 
 interface Params {
 	message: any;
@@ -34,9 +35,9 @@ export const command = (): Array<Command> => {
 			func: (param: Params): Function => server(param.message)
 		},
 		{
-			cmd: 'jorge?',
-			description: 'Ver se o bot tá on.',
-			func: (param: Params): void => param.message.channel.send('oii!')
+			cmd: 'eval',
+			description: 'Eval de código',
+			func: (param: Params): void => evalCommand(param.message, param.args)
 		},
 		{
 			cmd: 'voice',

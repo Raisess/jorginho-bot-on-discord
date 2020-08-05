@@ -9,6 +9,9 @@ import {
 	MessageEngineCommand
 } from './messageEngine';
 
+// utils
+import { setActivity } from './utils/setActivity';
+
 // commands
 import {
 	Command,
@@ -30,15 +33,7 @@ const uri: string = 'https://api-jorginhobot.herokuapp.com';
 // on bot init
 client.once('ready', (): boolean => {
 	console.log('jorginho bot is ready yaaah!');
-
-	// setting bot activity
-	client.user.setPresence({
-	  status: 'online',
-	  activity: {
-	    name: 'Spotify',
-	    type: 'LISTENING' // PLAYING: WATCHING: LISTENING: STREAMING:
-	  }
-	});
+	setActivity(client, 'online', 'spotify', 'LISTENING');
 
 	return true;
 });

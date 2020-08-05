@@ -3,6 +3,7 @@ import ytdl from 'ytdl-core-discord';
 import yts from 'yt-search';
 
 import { colors } from '../utils/colors';
+import { setActivity } from '../utils/setActivity';
 
 export const play = async (message: any, args: Array<string> | undefined, client: Client): Promise<boolean | any> => {
 	const voiceChannel = message.member.voice.channel;
@@ -31,13 +32,7 @@ export const play = async (message: any, args: Array<string> | undefined, client
 			voiceChannel.leave();
 			message.channel.send(`Tá bem <@${message.author.id}>, eu paro chatx`);
 
-			client.user.setPresence({
-				status: 'online',
-				activity: {
-					name: 'Youtube',
-					type: 'WATCHING'
-				}
-			});
+			setActivity(client, 'online', 'Youtube', 'WATCHING');
 
 			return true;
 		} else {
@@ -72,27 +67,28 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 		const dispatcher = connection.play(stream, streamOptions);
 
 		// music info
-		const musicName: string = info.player_response.videoDetails.title;
-		const thumbnail: string = info.player_response.videoDetails.thumbnail.thumbnails[3].url;
-		const author:    string = info.player_response.videoDetails.author;
+		const videoDetails: any = info.player_response.videoDetails;
+		const musicName: string = videoDetails.title;
+		const thumbnail: string = videoDetails.thumbnail.thumbnails[3].url;
+		const author:    string = videoDetails.author;
+		const views:     string = videoDetails.viewCount;
+		const duration:  string = String((parseInt(videoDetails.lengthSeconds) / 60).toFixed(2)).replace(/\./g, ':');
+
+		//console.log(duration);
 
 		// on music starts
 		dispatcher.on('start', () => {
-			client.user.setPresence({
-				status: 'online',
-				activity: {
-					name: musicName,
-					type: 'LISTENING'
-				}
-			});
+			setActivity(client, 'online', musicName, 'LISTENING');
 
 			const embed = new MessageEmbed()
 				.setColor(colors[Math.round(Math.random() * colors.length - 1)])
 				.setTitle(musicName)
 				.setURL(music)
 				.setImage(thumbnail)
-				.addField('Música', musicName)
-				.addField('Autor', author);
+				.addField('Tocando:', musicName)
+				.addField('Autor:', author)
+				.addField('Visualizações:', views, true)
+				.addField('Duração:', duration, true);
 			
 			message.channel.send(embed);
 		});
@@ -101,14 +97,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
  		dispatcher.on('finish', (end: any) => {
    		voiceChannel.leave();
 			message.channel.send('Cabou a música, põe outra ae cria');
-
-			client.user.setPresence({
-				status: 'online',
-				activity: {
-					name: 'Youtube',
-					type: 'WATCHING'
-				}
-			});
+			setActivity(client, 'online', 'Youtube', 'WATCHING');
 
 			return true;
  		});

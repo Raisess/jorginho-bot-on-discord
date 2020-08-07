@@ -64,7 +64,7 @@ client.on('message', (message: any): void | boolean => {
 
 		return message.channel.send('Voltei');
 	} else if ((message.content == `${CMD_PREFIX}power on` || message.content == `${CMD_PREFIX}power off`) && message.author.id != owner_id) {
-		return message.channel.send('Comando disponivel somente para pessoal autorizado!');
+		return message.channel.send(`Comando disponivel somente para <@${owner_id}>, não sou obrigado a te obdecer seu tchola!`);
 	}
 
 	if (ON) {

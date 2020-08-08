@@ -41,8 +41,8 @@ client.once('ready', (): boolean => {
 });
 
 // on new user enter the server
-client.on('guildMemberAdd', (member: any): void => {
- 	const channel = member.guild.channels.cache.find((ch: any) => ch.name == 'welcomes' || ch.name == 'geral' || ch.name == 'general' || ch.name == 'boas-vindas');
+client.on('guildMemberAdd', async (member: any): Promise<void> => {
+ 	const channel = member.guild.channels.cache.find((ch: any) => ch.name == '👋-welcomes' || ch.name == 'boas-vindas');
 	if (!channel) return;
 
 	const serverName = member.guild.name;
@@ -67,7 +67,7 @@ client.on('message', (message: any): void | boolean => {
 		return message.channel.send(`Comando disponivel somente para <@${owner_id}>, não sou obrigado a te obdecer seu tchola!`);
 	}
 
-	if (ON) {
+	if (ON || message.author.id == owner_id) {
 		// main definitions
 		const guild: string = message.guild.name;
 		const args: Array<string> = message.content.slice(1).trim().split(' ');
@@ -82,7 +82,7 @@ client.on('message', (message: any): void | boolean => {
 
 			// loop primitive commands
 			for (let _cmd of commands) {
-				if (args[0] == _cmd.cmd) {
+				if (args[0].toLowerCase() == _cmd.cmd) {
 					return _cmd.func({
 						message: message,
 						args:    args.slice(1),

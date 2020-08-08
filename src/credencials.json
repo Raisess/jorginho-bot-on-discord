@@ -3,5 +3,7 @@
 	"client_id": "734799688364195911",
 	"client_secret": "GfcgFj8NPU9ugzY2lazwosErV8D2SsY0",
 	"bot_token": "NzM0Nzk5Njg4MzY0MTk1OTEx.XxW9ng.eLIBvoaCZYJZIuw6v3VUy-GehvM",
-	"owner_id": "456557054237212682"
+	"owner_id": "456557054237212682",
+	"CMD_PREFIX": "!",
+	"uri": "https://api-jorginhobot.herokuapp.com"
 }

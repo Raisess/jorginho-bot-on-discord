@@ -1,7 +1,8 @@
 import { Client } from 'discord.js';
 import fetch from 'node-fetch';
 
-import { bot_token, owner_id } from './credencials.json';
+// some config data
+import { bot_token, owner_id, CMD_PREFIX, uri } from './credencials.json';
 
 // message filters
 import {
@@ -23,13 +24,9 @@ import conversation from './modules/botIA';
 
 // setup client and setup bot command prefix
 const client: Client = new Client();
-const CMD_PREFIX: string = '!';
-
 // setup all bot commands
 const commands: Array<Command> = command();
-// bot API uri
-const uri: string = 'https://api-jorginhobot.herokuapp.com';
-
+// bot initial state
 let ON: boolean = true;
 
 // on bot init

@@ -8,7 +8,7 @@ export interface MessageEngineCommand {
   message:     string;
 }
 
-export const messageEngine = (_message: any, messageData: MessageEngineCommand): string => {
+export const messageEngine = (_message: any, messageData: MessageEngineCommand | any): string => {
 	const { creator_id, message } = messageData;
 	// replace words
 	const customMessage: string = message.replace(/({username})/g, `<@${_message.author.id}>`).replace(/({me})/g, `<@${creator_id}>`);

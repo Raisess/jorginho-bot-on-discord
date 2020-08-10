@@ -50,28 +50,29 @@ client.on('guildMemberAdd', async (member: any): Promise<void> => {
 client.on('message', (message: any): void | boolean => {
 	if (message.author.bot) return;
 
+	const sendMessageFunction = (text: string): any => message.channel.send(text);
+
 	if (message.content == `${CMD_PREFIX}power off` && message.author.id == owner_id) {
 		ON = false;
 		setActivity(client, 'idle', 'Lo-Fi hip-hop', 'LISTENING');
 
-		return message.channel.send('Câmbio desligo!');
+		return sendMessageFunction('Câmbio desligo!');
 	} else if (message.content == `${CMD_PREFIX}power on` && message.author.id == owner_id) {
 		ON = true;
 		setActivity(client, 'online', 'Netflix', 'WATCHING');
 
-		return message.channel.send('Voltei');
+		return sendMessageFunction('Voltei');
 	} else if ((message.content == `${CMD_PREFIX}power on` || message.content == `${CMD_PREFIX}power off`) && message.author.id != owner_id) {
-		return message.channel.send(`Comando disponivel somente para <@${owner_id}>, não sou obrigado a te obdecer seu tchola!`);
+		return sendMessageFunction(`Comando disponivel somente para <@${owner_id}>, não sou obrigado a te obdecer seu tchola!`);
 	}
 
-	if (ON || message.author.id == owner_id) {
+	if (ON || (message.author.id == owner_id && !message.content.startsWith(CMD_PREFIX))) {
 		// main definitions
-		const guild: string = message.guild.name;
-		const args: Array<string> = message.content.slice(1).trim().split(' ');
-		const sendMessageFunction = (text: string): any => message.channel.send(text);
+		const guild: string        = message.guild.name;
+		const args:  Array<string> = message.content.slice(1).trim().split(' ');
 
 		// check if message has a command
-		if (message.content.startsWith(CMD_PREFIX)){
+		if (message.content.startsWith(CMD_PREFIX)) {
 			// test user join
 			if (args[0] == 'join') {
 				return client.emit('guildMemberAdd', message.member);
@@ -91,10 +92,10 @@ client.on('message', (message: any): void | boolean => {
 			}
 
 			// get custom commands from API
-			(async (guildName: string, sendMsgFunc: any, message: any, argsList: Array<string>): Promise<void> => {
+			(async (guildName: string, message: any, argsList: Array<string>): Promise<void> => {
 				// api fetch
 				const request: any = await fetch(`${uri}/command/get/${guildName}/${argsList[0]}`);
-				const data: any = await request.json();
+				const data:    any = await request.json();
 
 				if (data.success) {
 					const messageData: MessageEngineCommand = await data.command;
@@ -103,17 +104,18 @@ client.on('message', (message: any): void | boolean => {
 				}
 
 				return sendMessageFunction('**404 - Not Found**, comando inexistente nesse servidor...');
-			})(guild, sendMessageFunction, message, args);
+			})(guild, message, args);
 		} else {
 			// bot normal conversation
 			(async (question: string) => {
-				const botMessage: string = await conversation(question);
+				const botMessage:    string = await conversation(question);
+				const trasformedMsg: string = await messageEngine(message, { message: botMessage, creator_id: 'guest' });
 
-				return message.channel.send(botMessage);
+				return sendMessageFunction(trasformedMsg);
 			})(message.content);
 		}
 	} else if (message.content.startsWith(CMD_PREFIX)) {
-		return message.channel.send('Estou indisponivel no momento, tente mais tarde...');
+		return sendMessageFunction('Estou indisponivel no momento, tente mais tarde...');
 	}
 });
 
@@ -121,7 +123,7 @@ client.on('message', (message: any): void | boolean => {
 process.on('uncaughtException', (err: any) => {
   console.log(err);
 	return;
-})
+});
 
 client.login(bot_token);
 

@@ -66,7 +66,7 @@ client.on('message', (message: any): void | boolean => {
 		return sendMessageFunction(`Comando disponivel somente para <@${owner_id}>, não sou obrigado a te obdecer seu tchola!`);
 	}
 
-	if (ON || (message.author.id == owner_id && !message.content.startsWith(CMD_PREFIX))) {
+	if (ON || (message.author.id == owner_id && message.content.startsWith(CMD_PREFIX))) {
 		// main definitions
 		const guild: string        = message.guild.name;
 		const args:  Array<string> = message.content.slice(1).trim().split(' ');

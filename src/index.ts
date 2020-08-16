@@ -84,15 +84,16 @@ client.on('message', (message: any): void | boolean => {
 
 		return sendMessageFunction('Voltei');
 	} else if (message.content.startsWith(`${CMD_PREFIX}power`) && !checkOwnerId(userId)) {
-		let owners: Array<string> = owner_id;
+		const owners:        Array<string> = owner_id;
+		let editedOwnersArr: Array<string> = [];
 	
 		for (let owner of owners) {
-			owner = `<@${owner}>`;
+			editedOwnersArr.push(`<@${owner}>`);
 		}
 
-		const editedOwners: string = owners.join(' ,');
+		const editedOwners: string = editedOwnersArr.join(' ,');
 
-		return sendMessageFunction(`Comando disponivel somente para ${editedOwners}> não sou obrigado a te obdecer seu tchola!`);
+		return sendMessageFunction(`Comando disponivel somente para ${editedOwners} não sou obrigado a te obdecer seu tchola!`);
 	}
 
 	if (ON || (checkOwnerId(userId) && message.content.startsWith(CMD_PREFIX))) {

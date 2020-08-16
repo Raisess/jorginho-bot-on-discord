@@ -54,29 +54,36 @@ client.on('guildMemberAdd', async (member: any): Promise<void> => {
 
 // on send message
 client.on('message', (message: any): void | boolean => {
+	// main definitions
+	const guild:    string        = message.guild.name;
+	const username: string        = message.author.username;
+	const userId:   string        = message.author.id;
+	const args:     Array<string> = message.content.slice(1).trim().split(' ');
+
+	const messageLog: string = `[${guild} at ${new Date().toLocaleString()}]<${userId}>${username}: ${message.content}`;
+
 	if (message.author.bot) {
 		// show message on console
-		console.log(`${message.author.username}<${message.author.id}>:`, message.content);
-		
+		console.log(messageLog);	
 		return;
 	}
 
 	// show message on console
-	console.log(`${message.author.username}<${message.author.id}>:`, message.content);
+	console.log(messageLog);
 
 	const sendMessageFunction = (text: string): any => message.channel.send(text);
 
-	if (message.content == `${CMD_PREFIX}power off` && checkOwnerId(message.author.id)) {
+	if (message.content == `${CMD_PREFIX}power off` && checkOwnerId(userId)) {
 		ON = false;
 		setActivity(client, 'idle', 'Lo-Fi hip-hop', 'LISTENING');
 
 		return sendMessageFunction('Câmbio desligo!');
-	} else if (message.content == `${CMD_PREFIX}power on` && checkOwnerId(message.author.id)) {
+	} else if (message.content == `${CMD_PREFIX}power on` && checkOwnerId(userId)) {
 		ON = true;
 		setActivity(client, 'online', 'Netflix', 'WATCHING');
 
 		return sendMessageFunction('Voltei');
-	} else if (message.content.startsWith(`${CMD_PREFIX}power`) && !checkOwnerId(message.author.id)) {
+	} else if (message.content.startsWith(`${CMD_PREFIX}power`) && !checkOwnerId(userId)) {
 		let owners: Array<string> = owner_id;
 	
 		for (let owner of owners) {
@@ -88,11 +95,7 @@ client.on('message', (message: any): void | boolean => {
 		return sendMessageFunction(`Comando disponivel somente para ${editedOwners}> não sou obrigado a te obdecer seu tchola!`);
 	}
 
-	if (ON || ((message.author.id == owner_id[0] || message.author.id == owner_id[1]) && message.content.startsWith(CMD_PREFIX))) {
-		// main definitions
-		const guild: string        = message.guild.name;
-		const args:  Array<string> = message.content.slice(1).trim().split(' ');
-
+	if (ON || (checkOwnerId(userId) && message.content.startsWith(CMD_PREFIX))) {
 		// check if message has a command
 		if (message.content.startsWith(CMD_PREFIX)) {
 			// test user join

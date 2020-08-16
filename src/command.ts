@@ -13,6 +13,7 @@ import { translateCommand } from './commands/translate.cmd';
 import { ping } from './commands/ping.cmd';
 import { evalCommand } from './commands/eval.cmd';
 import { learnCommand } from './commands/learn.cmd';
+import { reset } from './commands/reset.cmd';
 
 interface Params {
 	message: any;
@@ -39,6 +40,11 @@ export const command = (): Array<Command> => {
 			cmd: 'eval',
 			description: 'Eval de código.',
 			func: (param: Params): void => evalCommand(param.message, param.args)
+		},
+		{
+			cmd: 'reset',
+			description: 'Reinicia o bot.',
+			func: (param: Params): void => reset(param.client, param.message)
 		},
 		{
 			cmd: 'learn',

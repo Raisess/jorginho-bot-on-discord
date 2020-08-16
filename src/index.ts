@@ -35,7 +35,7 @@ const commands: Array<Command> = command();
 let ON: boolean = true;
 
 // on bot init
-client.once('ready', (): boolean => {
+client.on('ready', (): boolean => {
 	console.log('jorginho bot is ready yaaah!');
 	setActivity(client, 'online', 'spotify', 'LISTENING');
 

@@ -17,6 +17,7 @@ import {
 
 // utils
 import { setActivity } from './utils/setActivity';
+import { checkOwnerId } from './utils/checkOwnerId';  
 
 // commands
 import {
@@ -53,22 +54,38 @@ client.on('guildMemberAdd', async (member: any): Promise<void> => {
 
 // on send message
 client.on('message', (message: any): void | boolean => {
-	if (message.author.bot) return;
+	if (message.author.bot) {
+		// show message on console
+		console.log(`${message.author.username}<${message.author.id}>:`, message.content);
+		
+		return;
+	}
+
+	// show message on console
+	console.log(`${message.author.username}<${message.author.id}>:`, message.content);
 
 	const sendMessageFunction = (text: string): any => message.channel.send(text);
 
-	if (message.content == `${CMD_PREFIX}power off` && (message.author.id == owner_id[0] || message.author.id == owner_id[1])) {
+	if (message.content == `${CMD_PREFIX}power off` && checkOwnerId(message.author.id)) {
 		ON = false;
 		setActivity(client, 'idle', 'Lo-Fi hip-hop', 'LISTENING');
 
 		return sendMessageFunction('Câmbio desligo!');
-	} else if (message.content == `${CMD_PREFIX}power on` && (message.author.id == owner_id[0] || message.author.id == owner_id[1])) {
+	} else if (message.content == `${CMD_PREFIX}power on` && checkOwnerId(message.author.id)) {
 		ON = true;
 		setActivity(client, 'online', 'Netflix', 'WATCHING');
 
 		return sendMessageFunction('Voltei');
-	} else if ((message.content == `${CMD_PREFIX}power on` || message.content == `${CMD_PREFIX}power off`) && (message.author.id != owner_id[0] && message.author.id != owner_id[1])) {
-		return sendMessageFunction(`Comando disponivel somente para <@${owner_id[0]}> & <@${owner_id[1]}>, não sou obrigado a te obdecer seu tchola!`);
+	} else if (message.content.startsWith(`${CMD_PREFIX}power`) && !checkOwnerId(message.author.id)) {
+		let owners: Array<string> = owner_id;
+	
+		for (let owner of owners) {
+			owner = `<@${owner}>`;
+		}
+
+		const editedOwners: string = owners.join(' ,');
+
+		return sendMessageFunction(`Comando disponivel somente para ${editedOwners}> não sou obrigado a te obdecer seu tchola!`);
 	}
 
 	if (ON || ((message.author.id == owner_id[0] || message.author.id == owner_id[1]) && message.content.startsWith(CMD_PREFIX))) {

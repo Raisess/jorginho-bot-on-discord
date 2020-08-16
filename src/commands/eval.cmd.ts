@@ -1,8 +1,8 @@
 import { clean } from '../utils/clean';
-import { owner_id } from '../credencials.json';
+import { checkOwnerId } from '../utils/checkOwnerId';
 
 export const evalCommand = (message: any, args: Array<string> | undefined): void => {
-	if (message.author.id == owner_id[0]) {
+	if (checkOwnerId(message.author.id)) {
 		try {
     	const code = args ? args.join(" ") : '';
     	let evaled = eval(code);
@@ -15,8 +15,8 @@ export const evalCommand = (message: any, args: Array<string> | undefined): void
   	} 	catch (err) {
     	return message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
   	}
-	} else {
-		return message.channel.send(':octagonal_sign: Comando disponivel somente para programadores!!! :octagonal_sign:');
 	}
+
+	return message.channel.send(':octagonal_sign: Comando disponivel somente para programadores!!! :octagonal_sign:');
 }
 

@@ -52,21 +52,21 @@ client.on('message', (message: any): void | boolean => {
 
 	const sendMessageFunction = (text: string): any => message.channel.send(text);
 
-	if (message.content == `${CMD_PREFIX}power off` && message.author.id == owner_id) {
+	if (message.content == `${CMD_PREFIX}power off` && (message.author.id == owner_id[0] || message.author.id == owner_id[1])) {
 		ON = false;
 		setActivity(client, 'idle', 'Lo-Fi hip-hop', 'LISTENING');
 
 		return sendMessageFunction('Câmbio desligo!');
-	} else if (message.content == `${CMD_PREFIX}power on` && message.author.id == owner_id) {
+	} else if (message.content == `${CMD_PREFIX}power on` && (message.author.id == owner_id[0] || message.author.id == owner_id[1])) {
 		ON = true;
 		setActivity(client, 'online', 'Netflix', 'WATCHING');
 
 		return sendMessageFunction('Voltei');
-	} else if ((message.content == `${CMD_PREFIX}power on` || message.content == `${CMD_PREFIX}power off`) && message.author.id != owner_id) {
-		return sendMessageFunction(`Comando disponivel somente para <@${owner_id}>, não sou obrigado a te obdecer seu tchola!`);
+	} else if ((message.content == `${CMD_PREFIX}power on` || message.content == `${CMD_PREFIX}power off`) && (message.author.id != owner_id[0] && message.author.id != owner_id[1])) {
+		return sendMessageFunction(`Comando disponivel somente para <@${owner_id[0]}> & <@${owner_id[1]}>, não sou obrigado a te obdecer seu tchola!`);
 	}
 
-	if (ON || (message.author.id == owner_id && message.content.startsWith(CMD_PREFIX))) {
+	if (ON || ((message.author.id == owner_id[0] || message.author.id == owner_id[1]) && message.content.startsWith(CMD_PREFIX))) {
 		// main definitions
 		const guild: string        = message.guild.name;
 		const args:  Array<string> = message.content.slice(1).trim().split(' ');
@@ -106,13 +106,15 @@ client.on('message', (message: any): void | boolean => {
 				return sendMessageFunction('**404 - Not Found**, comando inexistente nesse servidor...');
 			})(guild, message, args);
 		} else {
-			// bot normal conversation
-			(async (question: string) => {
-				const botMessage:    string = await conversation(question);
-				const trasformedMsg: string = await messageEngine(message, { message: botMessage, creator_id: 'guest' });
+			if (message.channel.name == '🤖-bot-spam' || message.channel.name == 'bot') {
+				// bot normal conversation
+				(async (question: string) => {
+					const botMessage:    string = await conversation(question);
+					const trasformedMsg: string = await messageEngine(message, { message: botMessage, creator_id: 'guest' });
 
-				return sendMessageFunction(trasformedMsg);
-			})(message.content);
+					return sendMessageFunction(trasformedMsg);
+				})(message.content);
+			}
 		}
 	} else if (message.content.startsWith(CMD_PREFIX)) {
 		return sendMessageFunction('Estou indisponivel no momento, tente mais tarde...');

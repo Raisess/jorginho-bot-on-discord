@@ -1,12 +1,12 @@
 import { Client, MessageEmbed } from 'discord.js';
-import ytdl from 'ytdl-core-discord';
+import ytdl from 'ytdl-core';
 import yts from 'yt-search';
 
 import { colors } from '../utils/colors';
 import { setActivity } from '../utils/setActivity';
 
 export const play = async (message: any, args: Array<string> | undefined, client: Client): Promise<boolean | any> => {
-	const voiceChannel = message.member.voice.channel;
+	const voiceChannel: any = message.member.voice.channel;
 
 	const music: string = args ? args.join(' ') : '';
 	let musicId: Array<string>;
@@ -52,19 +52,17 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 	try {
 		const streamOptions = {
 			volume: false,
-			type: 'opus',
-			highWaterMark: 100
+			type: 'webm/opus'
 		};
 
-		const stream = await ytdl(music, {
-			filter: 'audioonly',
-			quality: 'highestaudio'
+		const stream: any = await ytdl(music, {
+			quality: '134'
 		});
 
-		const info = await ytdl.getInfo(musicId[1]);
+		const info: any = await ytdl.getInfo(musicId[1]);
  		// voice connection
-		const connection = await voiceChannel.join();
-		const dispatcher = connection.play(stream, streamOptions);
+		const connection: any = await voiceChannel.join();
+		const dispatcher: any = await connection.play(stream, streamOptions);
 
 		// music info
 		const videoDetails: any = info.player_response.videoDetails;
@@ -80,7 +78,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 		dispatcher.on('start', () => {
 			setActivity(client, 'online', musicName, 'LISTENING');
 
-			const embed = new MessageEmbed()
+			const embed: MessageEmbed = new MessageEmbed()
 				.setColor(colors[Math.round(Math.random() * colors.length - 1)])
 				.setTitle(musicName)
 				.setURL(music)
@@ -104,7 +102,9 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 
 		// on music error
 		dispatcher.on('error', (err: any) => {
+   		voiceChannel.leave();
 			message.channel.send('Eii boy a música miou aqui, e agr???');
+			setActivity(client, 'online', 'Youtube', 'WATCHING');
 
 			return false;
 		});

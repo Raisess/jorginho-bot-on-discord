@@ -79,7 +79,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 			setActivity(client, 'online', musicName, 'LISTENING');
 
 			const embed: MessageEmbed = new MessageEmbed()
-				.setColor(colors[Math.round(Math.random() * colors.length - 1)])
+				.setColor(colors[Math.round(Math.random() * colors.length) - 1])
 				.setTitle(musicName)
 				.setURL(music)
 				.setImage(thumbnail)

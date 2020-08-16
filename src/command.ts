@@ -12,6 +12,7 @@ import { indication_ } from './commands/netflix.cmd';
 import { translateCommand } from './commands/translate.cmd';
 import { ping } from './commands/ping.cmd';
 import { evalCommand } from './commands/eval.cmd';
+import { learnCommand } from './commands/learn.cmd';
 
 interface Params {
 	message: any;
@@ -36,8 +37,13 @@ export const command = (): Array<Command> => {
 		},
 		{
 			cmd: 'eval',
-			description: 'Eval de código',
+			description: 'Eval de código.',
 			func: (param: Params): void => evalCommand(param.message, param.args)
+		},
+		{
+			cmd: 'learn',
+			description: 'Ensinar algo novo ao bot.',
+			func: async (param: Params): Promise<void> => await learnCommand(param.message, param.args)
 		},
 		{
 			cmd: 'voice',
@@ -46,22 +52,22 @@ export const command = (): Array<Command> => {
 		},
 		{
 			cmd: 'play',
-			description: 'Tocar uma musica',
+			description: 'Tocar uma musica.',
 			func: async (param: Params): Promise<boolean> => await play(param.message, param.args, param.client)
 		},
 		{
 			cmd: 'insta',
-			description: 'Buscar a foto de perfil de alguem no instagram',
+			description: 'Buscar a foto de perfil de alguem no instagram.',
 			func: (param: Params): void => insta(param.message, param.args)
 		},
 		{
 			cmd: 'img',
-			description: 'Buscar uma imagem aleatoria',
+			description: 'Buscar uma imagem aleatoria.',
 			func: async (param: Params): Promise<void> => await img(param.message, param.args)
 		},
 		{
 			cmd: 'indication',
-			description: 'Indicação de filme ou série',
+			description: 'Indicação de filme ou série.',
 			func: async (param: Params): Promise<void> => await indication_(param.message)
 		},
 		{
@@ -71,7 +77,7 @@ export const command = (): Array<Command> => {
 		},
 		{
 			cmd: 'ping',
-			description: 'Checar o ping do bot',
+			description: 'Checar o ping do bot.',
 			func: async (param: Params): Promise<void> => await ping(param.message, param.client)
 		},
 		{

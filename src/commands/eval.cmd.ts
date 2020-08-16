@@ -2,7 +2,7 @@ import { clean } from '../utils/clean';
 import { owner_id } from '../credencials.json';
 
 export const evalCommand = (message: any, args: Array<string> | undefined): void => {
-	if (message.author.id == owner_id) {
+	if (message.author.id == owner_id[0]) {
 		try {
     	const code = args ? args.join(" ") : '';
     	let evaled = eval(code);

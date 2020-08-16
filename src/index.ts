@@ -2,7 +2,12 @@ import { Client } from 'discord.js';
 import fetch from 'node-fetch';
 
 // some config data
-import { bot_token, owner_id, CMD_PREFIX, uri } from './credencials.json';
+import {
+	bot_token,
+	owner_id,
+	CMD_PREFIX,
+	uri
+} from './credencials.json';
 
 // message filters
 import {
@@ -20,7 +25,7 @@ import {
 } from './command';
 
 // conversation module
-import conversation from './modules/botIA';
+import { conversation } from './modules/botIA';
 
 // setup client and setup bot command prefix
 const client: Client = new Client();

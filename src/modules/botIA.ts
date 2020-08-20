@@ -20,6 +20,10 @@ export const conversation = async (question: string): Promise<string> => {
 	const response = await request.json();
 	const text: string = await response.text;
 
+	if (text.startsWith("Question can't be longer than 100 chars.")) {
+		return 'Ou isso é um link ou é um textão, vou ler nada saporra...';
+	}
+
 	return text;
 }
 

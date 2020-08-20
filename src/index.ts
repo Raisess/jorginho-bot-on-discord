@@ -38,7 +38,7 @@ let ON: boolean = true;
 // on bot init
 client.on('ready', (): boolean => {
 	console.log('jorginho bot is ready yaaah!');
-	setActivity(client, 'online', 'spotify', 'LISTENING');
+	setActivity(client, 'online', 'Spotify', 'LISTENING');
 
 	return true;
 });

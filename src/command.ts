@@ -14,6 +14,7 @@ import { ping } from './commands/ping.cmd';
 import { evalCommand } from './commands/eval.cmd';
 import { learnCommand } from './commands/learn.cmd';
 import { reset } from './commands/reset.cmd';
+import { wiki } from './commands/wiki.cmd';
 
 interface Params {
 	message: any;
@@ -60,6 +61,11 @@ export const command = (): Array<Command> => {
 			cmd: 'play',
 			description: 'Tocar uma musica.',
 			func: async (param: Params): Promise<boolean> => await play(param.message, param.args, param.client)
+		},
+		{
+			cmd: 'wiki',
+			description: 'Buscar uma página na Wikipédia',
+			func: async (param: Params): Promise<void> => await wiki(param.message, param.args)
 		},
 		{
 			cmd: 'insta',

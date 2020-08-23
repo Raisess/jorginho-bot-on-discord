@@ -35,7 +35,7 @@ export const command = (): Array<Command> => {
 		{
 			cmd: 'server',
 			description: 'Ver as informações do servidor.',
-			func: (param: Params): Function => server(param.message)
+			func: (param: Params): void => server(param.message)
 		},
 		{
 			cmd: 'eval',

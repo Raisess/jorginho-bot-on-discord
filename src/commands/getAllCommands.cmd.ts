@@ -1,6 +1,5 @@
 import fetch from 'node-fetch';
 
-// TODO: get all commands from API and generate a list
 export const getAllCommands = async (message: any, uri: string | undefined, prefix: string | undefined): Promise<void> => {
 	const guild: string = message.guild.name;
 	// fetch API
@@ -22,4 +21,5 @@ export const getAllCommands = async (message: any, uri: string | undefined, pref
 	}
 
 	return message.channel.send('**404 - Not Found**, esse servidor ainda não possui comandos.');
-} 
+}
+

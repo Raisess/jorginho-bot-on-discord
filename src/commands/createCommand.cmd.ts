@@ -26,3 +26,4 @@ export const createCommand = async (message: any, args: Array<string> | undefine
 
 	return message.channel.send('Oops não consegui criar o comando, tente novamente...');
 }
+

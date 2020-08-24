@@ -16,6 +16,7 @@ import { learnCommand } from './commands/learn.cmd';
 import { reset } from './commands/reset.cmd';
 import { wiki } from './commands/wiki.cmd';
 import { execCommand } from './commands/exec.cmd';
+import { kick, ban } from './commands/kickAndBan.cmd';
 
 interface Params {
 	message: any;
@@ -37,6 +38,16 @@ export const command = (): Array<Command> => {
 			cmd: 'server',
 			description: 'Ver as informações do servidor.',
 			func: (param: Params): void => server(param.message)
+		},
+		{
+			cmd: 'kick',
+			description: 'Kickar um usuário do servidor',
+			func: (param: Params): void => kick(param.message)
+		},
+		{
+			cmd: 'ban',
+			description: 'Banir um usuário do servidor',
+			func: (param: Params): void => ban(param.message)
 		},
 		{
 			cmd: 'eval',

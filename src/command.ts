@@ -15,6 +15,7 @@ import { evalCommand } from './commands/eval.cmd';
 import { learnCommand } from './commands/learn.cmd';
 import { reset } from './commands/reset.cmd';
 import { wiki } from './commands/wiki.cmd';
+import { execCommand } from './commands/exec.cmd';
 
 interface Params {
 	message: any;
@@ -66,6 +67,11 @@ export const command = (): Array<Command> => {
 			cmd: 'wiki',
 			description: 'Buscar uma página na Wikipédia',
 			func: async (param: Params): Promise<void> => await wiki(param.message, param.args)
+		},
+		{
+			cmd: 'exec',
+			description: 'Executar um comando no terminal via mensagem',
+			func: (param: Params): void => execCommand(param.message, param.args)
 		},
 		{
 			cmd: 'insta',

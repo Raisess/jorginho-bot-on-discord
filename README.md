@@ -31,7 +31,7 @@ The **credencials.json** template:
 
 ### 📩 Invite to your sever
 
-Use this link to invite your bot on a server: https://discordapp.com/oauth2/authorize?client_id="your-bot-client-id-goes-here"&scope=bot&permissions=1610087551
+- Use this link to invite your bot on a server: https://discordapp.com/oauth2/authorize?client_id="your-bot-client-id-goes-here"&scope=bot&permissions=1610087551
 
 ### 🛑 Atention
 

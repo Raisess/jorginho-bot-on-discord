@@ -29,6 +29,10 @@ The **credencials.json** template:
 }
 ```
 
+### 📩 Invite to your sever
+
+Use this link to invite your bot on a server: https://discordapp.com/oauth2/authorize?client_id=<your-bot-client-id>&scope=bot&permissions=1610087551
+
 ### 🛑 Atention
 
 - You can user the default jorginho bot api to save custom command or you can make your own API.

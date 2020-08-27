@@ -2,8 +2,8 @@
 
 ## ❔ To run what you need?
 
-- NodeJS LTS
-- TypeScript LTS
+- [NodeJS LTS](https://nodejs.org/en/download/)
+- [TypeScript LTS](https://www.npmjs.com/package/typescript)
 
 ## 🎉 Instaliing
 
@@ -13,7 +13,7 @@ To install run this command:
 npm install
 ```
 
-## ⚙️ Configuratiing
+## ⚙️ Configuraing
 
 To use this bot you need to create a discord bot aplication in [discord dev page](https://discord.com/developers/applications/) and create a **credencials.json** file in the jorginho src folder.
 

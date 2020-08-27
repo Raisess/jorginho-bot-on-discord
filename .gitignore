@@ -1,4 +1,5 @@
 /node_modules
 /build
 bash.exe.stackdump
+/src/credencials.json
 

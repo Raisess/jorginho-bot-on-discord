@@ -13,7 +13,7 @@ To install run this command:
 npm install
 ```
 
-## ⚙️ Configuraing
+## ⚙️ CConfiguring
 
 To use this bot you need to create a discord bot aplication in [discord dev page](https://discord.com/developers/applications/) and create a **credencials.json** file in the jorginho src folder.
 

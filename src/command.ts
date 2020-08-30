@@ -12,7 +12,6 @@ import { indication_ } from './commands/netflix.cmd';
 import { translateCommand } from './commands/translate.cmd';
 import { ping } from './commands/ping.cmd';
 import { evalCommand } from './commands/eval.cmd';
-import { learnCommand } from './commands/learn.cmd';
 import { reset } from './commands/reset.cmd';
 import { wiki } from './commands/wiki.cmd';
 import { execCommand } from './commands/exec.cmd';
@@ -58,11 +57,6 @@ export const command = (): Array<Command> => {
 			cmd: 'reset',
 			description: 'Reinicia o bot.',
 			func: (param: Params): void => reset(param.client, param.message)
-		},
-		{
-			cmd: 'learn',
-			description: 'Ensinar algo novo ao bot.',
-			func: async (param: Params): Promise<void> => await learnCommand(param.message, param.args)
 		},
 		{
 			cmd: 'voice',

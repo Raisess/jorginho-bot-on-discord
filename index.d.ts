@@ -1450,10 +1450,7 @@ declare module 'discord.js' {
 
 //#region Typedefs
 
-	type ActivityType = 'PLAYING'
-		| 'STREAMING'
-		| 'LISTENING'
-		| 'WATCHING';
+	type ActivityType = string;
 
 	type APIErrror = {
 		UNKNOWN_ACCOUNT: number;
@@ -2025,7 +2022,7 @@ declare module 'discord.js' {
 
 	type PresenceResolvable = Presence | UserResolvable | Snowflake;
 
-	type PresenceStatus = 'online' | 'idle' | 'invisible' | 'dnd';
+	type PresenceStatus = string;
 
 	type RateLimitData = {
 		timeout: number;

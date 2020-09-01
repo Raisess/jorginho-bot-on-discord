@@ -16,7 +16,7 @@ import {
 } from './messageEngine';
 
 // utils
-import { setActivity } from './utils/setActivity';
+import { predefinedActivity } from './utils/predefinedActivity';
 import { checkOwnerId } from './utils/checkOwnerId';  
 
 // commands
@@ -38,9 +38,8 @@ let ON: boolean = true;
 // on bot init
 client.on('ready', (): boolean => {
 	console.log('jorginho bot is ready yaaah!');
-	setActivity(client, 'online', 'Spotify', 'LISTENING');
 
-	return true;
+	return predefinedActivity(client);
 });
 
 // on new user enter the server
@@ -75,12 +74,12 @@ client.on('message', (message: any): void | boolean => {
 
 	if (message.content == `${CMD_PREFIX}power off` && checkOwnerId(userId)) {
 		ON = false;
-		setActivity(client, 'idle', 'Lo-Fi hip-hop', 'LISTENING');
+		predefinedActivity(client);
 
 		return sendMessageFunction('Câmbio desligo!');
 	} else if (message.content == `${CMD_PREFIX}power on` && checkOwnerId(userId)) {
 		ON = true;
-		setActivity(client, 'online', 'Netflix', 'WATCHING');
+		predefinedActivity(client);
 
 		return sendMessageFunction('Voltei');
 	} else if (message.content.startsWith(`${CMD_PREFIX}power`) && !checkOwnerId(userId)) {
@@ -146,6 +145,9 @@ client.on('message', (message: any): void | boolean => {
 		return sendMessageFunction('Estou indisponivel no momento, tente mais tarde...');
 	}
 });
+
+// updated predefinedActivity in a hour
+setInterval(() => predefinedActivity(client), 60 * 60000);
 
 // ignore some errors
 process.on('uncaughtException', (err: any) => {

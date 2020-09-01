@@ -1,0 +1,48 @@
+[
+	{
+		"status":       "online",
+		"activityName": "como dominar o mundo sem ter um corpo :clown: :knive:",
+		"activityType": "WATCHING",
+		"time": {
+			"day":     [1, 2, 3, 4, 5],
+			"hour":    [7, 13]
+		}
+	},
+	{
+		"status":       "online",
+		"activityName": "aula de biologia na faculdade de medicina :nerd:",
+		"activityType": "WATCHING",
+		"time": {
+			"day":     [1, 2, 3, 4, 5],
+			"hour":    [13, 17]
+		}
+	},	
+	{
+		"status":       "online",
+		"activityName": "sextou - pisadinha kaceteira",
+		"activityType": "LISTENING",
+		"time": {
+			"day":     [5],
+			"hour":    [17, 22]
+		}
+	},
+	{
+		"status":       "online",
+		"activityName": "alanzoka na twitch :thumbsup:",
+		"activityType": "WATCHING",
+		"time": {
+			"day":     [1, 2, 3, 4, 5],
+			"hour":    [17, 21]
+		}
+	},	
+	{
+		"status":       "idle",
+		"activityName": "Lo - Fi | hip - hop // estoy a mimir",
+		"activityType": "LISTENING",
+		"time": {
+			"day":     [0, 1, 2, 3, 4, 5, 6],
+			"hour":    [22, 5]
+		}
+	}
+]
+

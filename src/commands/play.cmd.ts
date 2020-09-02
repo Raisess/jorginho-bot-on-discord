@@ -1,5 +1,5 @@
 import { Client, MessageEmbed } from 'discord.js';
-import ytdl from 'ytdl-core';
+import ytdl from 'ytdl-core-discord';
 import yts from 'yt-search';
 
 import { colors } from '../utils/colors';
@@ -38,6 +38,7 @@ export const play = async (message: any, args: Array<string> | undefined, client
 		} else {
 			yts(music, async (err: any, res: any): Promise<boolean> => {
 				const videos: Array<any> = await res.videos;
+				console.log(res);
 				const videoUrl: string = await videos[0].url;
 
 				musicId = ['pc', await videoUrl.split('=')[1]];
@@ -52,11 +53,13 @@ const playMusic = async (message: any, client: Client, music: string, musicId: A
 	try {
 		const streamOptions = {
 			volume: false,
-			type: 'webm/opus'
+			type:   'opus',
+			highWaterMark: 10
 		};
 
 		const stream: any = await ytdl(music, {
-			quality: '134'
+			filter:  'audioonly',
+			quality: 'highestaudio'
 		});
 
 		const info: any = await ytdl.getInfo(musicId[1]);

@@ -26,7 +26,7 @@ export const predefinedActivity = (client: Client): boolean => {
 	// select the correct index for this time :thumbsup:
 	for (let activity of predefinedActivities) {
 		if (hour >= activity.time.hour[0] && (hour <= activity.time.hour[1] && mins >= 0)) {
-			console.log(activity);
+			//console.log(activity);
 
 			for (let i = 0; i < activity.time.day.length; i++) {
 				if (day == activity.time.day[i]) {

@@ -11,8 +11,6 @@ export const play = async (message: any, args: Array<string> | undefined, client
 	const music: string = args ? args.join(' ') : '';
 	let musicId: Array<string>;
 
-	//console.log('joined channel');
-
 	if (music != 'stop') {
 		message.channel.send(`Calma tô caçando aqui essa música: ${music}...`);
 	}
@@ -36,15 +34,15 @@ export const play = async (message: any, args: Array<string> | undefined, client
 
 			return true;
 		} else {
-			yts(music, async (err: any, res: any): Promise<boolean> => {
-				const videos: Array<any> = await res.videos;
-				console.log(res);
-				const videoUrl: string = await videos[0].url;
+			console.log('music:', music);
 
-				musicId = ['pc', await videoUrl.split('=')[1]];
+			const res: any = await yts(music);
+			const videos: Array<any> = await res.videos;
+			const videoUrl: string = await videos[0].url;
 
-				return playMusic(message, client, videoUrl, musicId, voiceChannel);
-			});
+			musicId = ['pc', await videoUrl.split('=')[1]];
+
+			return playMusic(message, client, videoUrl, musicId, voiceChannel);
 		}
 	}
 }

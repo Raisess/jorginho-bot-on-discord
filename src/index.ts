@@ -146,8 +146,8 @@ client.on('message', (message: any): void | boolean => {
 	}
 });
 
-// updated predefinedActivity in a hour
-setInterval(() => predefinedActivity(client), 60 * 60000);
+// updated predefinedActivity
+setInterval(() => predefinedActivity(client), 60 * 10000);
 
 // ignore some errors
 process.on('uncaughtException', (err: any) => {

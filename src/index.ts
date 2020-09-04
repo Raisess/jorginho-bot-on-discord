@@ -18,6 +18,7 @@ import {
 // utils
 import { predefinedActivity } from './utils/predefinedActivity';
 import { checkOwnerId } from './utils/checkOwnerId';  
+import { blackListCheck } from './utils/blackListCheck';
 
 // commands
 import {
@@ -59,91 +60,95 @@ client.on('message', (message: any): void | boolean => {
 	const userId:   string        = message.author.id;
 	const args:     Array<string> = message.content.slice(1).trim().split(' ');
 
-	const messageLog: string = `[${guild} at ${new Date().toLocaleString()}]<${userId}>${username}: ${message.content}`;
+	if (!blackListCheck(guild)) {
+		const messageLog: string = `[${guild} at ${new Date().toLocaleString()}]<${userId}>${username}: ${message.content}`;
 
-	if (message.author.bot) {
+		if (message.author.bot) {
+			// show message on console
+			console.log(messageLog);	
+			return;
+		}
+
 		// show message on console
-		console.log(messageLog);	
-		return;
-	}
+		console.log(messageLog);
 
-	// show message on console
-	console.log(messageLog);
+		const sendMessageFunction = (text: string): any => message.channel.send(text);
 
-	const sendMessageFunction = (text: string): any => message.channel.send(text);
+		if (message.content == `${CMD_PREFIX}power off` && checkOwnerId(userId)) {
+			ON = false;
+			predefinedActivity(client);
 
-	if (message.content == `${CMD_PREFIX}power off` && checkOwnerId(userId)) {
-		ON = false;
-		predefinedActivity(client);
+			return sendMessageFunction('Câmbio desligo!');
+		} else if (message.content == `${CMD_PREFIX}power on` && checkOwnerId(userId)) {
+			ON = true;
+			predefinedActivity(client);
 
-		return sendMessageFunction('Câmbio desligo!');
-	} else if (message.content == `${CMD_PREFIX}power on` && checkOwnerId(userId)) {
-		ON = true;
-		predefinedActivity(client);
-
-		return sendMessageFunction('Voltei');
-	} else if (message.content.startsWith(`${CMD_PREFIX}power`) && !checkOwnerId(userId)) {
-		const owners:        Array<string> = owner_id;
-		let editedOwnersArr: Array<string> = [];
+			return sendMessageFunction('Voltei');
+		} else if (message.content.startsWith(`${CMD_PREFIX}power`) && !checkOwnerId(userId)) {
+			const owners:        Array<string> = owner_id;
+			let editedOwnersArr: Array<string> = [];
 	
-		for (let owner of owners) {
-			editedOwnersArr.push(`<@${owner}>`);
+			for (let owner of owners) {
+				editedOwnersArr.push(`<@${owner}>`);
+			}
+
+			const editedOwners: string = editedOwnersArr.join(' ,');
+
+			return sendMessageFunction(`Comando disponivel somente para ${editedOwners} não sou obrigado a te obdecer seu tchola!`);
 		}
 
-		const editedOwners: string = editedOwnersArr.join(' ,');
-
-		return sendMessageFunction(`Comando disponivel somente para ${editedOwners} não sou obrigado a te obdecer seu tchola!`);
-	}
-
-	if (ON || (checkOwnerId(userId) && message.content.startsWith(CMD_PREFIX))) {
-		// check if message has a command
-		if (message.content.startsWith(CMD_PREFIX)) {
-			// test user join
-			if (args[0] == 'join') {
-				return client.emit('guildMemberAdd', message.member);
-			}
-
-			// loop primitive commands
-			for (let _cmd of commands) {
-				if (args[0].toLowerCase() == _cmd.cmd) {
-					return _cmd.func({
-						message: message,
-						args:    args.slice(1),
-						uri:     uri,
-						prefix:  CMD_PREFIX,
-						client:  client
-					});
-				}
-			}
-
-			// get custom commands from API
-			(async (guildName: string, message: any, argsList: Array<string>): Promise<void> => {
-				// api fetch
-				const request: any = await fetch(`${uri}/command/get/${guildName}/${argsList[0]}`);
-				const data:    any = await request.json();
-
-				if (data.success) {
-					const messageData: MessageEngineCommand = await data.command;
-
-					return sendMessageFunction(messageEngine(message, messageData));
+		if (ON || (checkOwnerId(userId) && message.content.startsWith(CMD_PREFIX))) {
+			// check if message has a command
+			if (message.content.startsWith(CMD_PREFIX)) {
+				// test user join
+				if (args[0] == 'join') {
+					return client.emit('guildMemberAdd', message.member);
 				}
 
-				return sendMessageFunction('**404 - Not Found**, comando inexistente nesse servidor...');
-			})(guild, message, args);
-		} else {
-			if (message.channel.name == '🤖-bot-spam' || message.channel.name == 'bot') {
-				// bot normal conversation
-				(async (question: string) => {
-					const botMessage:    string = await conversation(question);
-					const trasformedMsg: string = await messageEngine(message, { message: botMessage, creator_id: 'guest' });
+				// loop primitive commands
+				for (let _cmd of commands) {
+					if (args[0].toLowerCase() == _cmd.cmd) {
+						return _cmd.func({
+							message: message,
+							args:    args.slice(1),
+							uri:     uri,
+							prefix:  CMD_PREFIX,
+							client:  client
+						});
+					}
+				}
 
-					return sendMessageFunction(trasformedMsg);
-				})(message.content);
+				// get custom commands from API
+				(async (guildName: string, message: any, argsList: Array<string>): Promise<void> => {
+					// api fetch
+					const request: any = await fetch(`${uri}/command/get/${guildName}/${argsList[0]}`);
+					const data:    any = await request.json();
+
+					if (data.success) {
+						const messageData: MessageEngineCommand = await data.command;
+
+						return sendMessageFunction(messageEngine(message, messageData));
+					}
+
+					return sendMessageFunction('**404 - Not Found**, comando inexistente nesse servidor...');
+				})(guild, message, args);
+			} else {
+				if (message.channel.name == '🤖-bot-spam' || message.channel.name == 'bot') {
+					// bot normal conversation
+					(async (question: string) => {
+						const botMessage:    string = await conversation(question);
+						const trasformedMsg: string = await messageEngine(message, { message: botMessage, creator_id: 'guest' });
+
+						return sendMessageFunction(trasformedMsg);
+					})(message.content);
+				}
 			}
+		} else if (message.content.startsWith(CMD_PREFIX)) {
+			return sendMessageFunction('Estou indisponivel no momento, tente mais tarde...');
 		}
-	} else if (message.content.startsWith(CMD_PREFIX)) {
-		return sendMessageFunction('Estou indisponivel no momento, tente mais tarde...');
 	}
+
+	return;
 });
 
 // updated predefinedActivity

@@ -60,7 +60,7 @@ client.on('message', (message: any): void | boolean => {
 	const userId:   string        = message.author.id;
 	const args:     Array<string> = message.content.slice(1).trim().split(' ');
 
-	if (!blackListCheck(guild)) {
+	if (!blackListCheck(guild) || checkOwnerId(userId)) {
 		const messageLog: string = `[${guild} at ${new Date().toLocaleString()}]<${userId}>${username}: ${message.content}`;
 
 		if (message.author.bot) {

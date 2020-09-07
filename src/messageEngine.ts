@@ -18,8 +18,10 @@ let counts: Array<ICount> = [];
 export const messageEngine = (_message: any, messageData: MessageEngineCommand | any): string => {
 	const { creator_id, message } = messageData;
 	// replace words
-	let customMessage: string = message.replace(/({username})/g, `<@${_message.author.id}>`)
-		.replace(/({me})/g, `<@${creator_id}>`);
+	const customMessage: string = message
+		.replace(/({username})/g, `<@${_message.author.id}>`)
+			.replace(/({me})/g, `<@${creator_id}>`)
+				.replace(/({now})/g, new Date().toLocaleString());
 
 	let splitedCustomMessage: Array<string> = customMessage.split(' ');
 

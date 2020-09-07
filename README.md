@@ -25,7 +25,10 @@ The **credencials.json** template:
 	"bot_token": "<the-bot-token>",
 	"owner_id": ["<your-discord-id>"],
 	"CMD_PREFIX": "!",
-	"uri": "https://api-jorginhobot.herokuapp.com"
+	"uri": "https://api-jorginhobot.herokuapp.com",
+	"blacklist": [
+		"<...servers-blacklisted>"
+	]
 }
 ```
 

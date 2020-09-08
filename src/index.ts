@@ -45,7 +45,7 @@ client.on('ready', (): boolean => {
 
 // on new user enter the server
 client.on('guildMemberAdd', async (member: any): Promise<void> => {
- 	const channel = member.guild.channels.cache.find((ch: any) => ch.name == '👋-welcomes' || ch.name == 'boas-vindas');
+ 	const channel = member.guild.channels.cache.find((ch: any) => ch.name == '👋-welcomes' || ch.name == 'welcomes');
 	if (!channel) return;
 
 	const serverName = member.guild.name;
@@ -133,7 +133,7 @@ client.on('message', (message: any): void | boolean => {
 					return sendMessageFunction('**404 - Not Found**, comando inexistente nesse servidor...');
 				})(guild, message, args);
 			} else {
-				if (message.channel.name == '🤖-bot-spam' || message.channel.name == 'bot') {
+				if (message.channel.name == '🤖-bot-spam' || message.channel.name == 'bot-spam') {
 					// bot normal conversation
 					(async (question: string) => {
 						const botMessage:    string = await conversation(question);

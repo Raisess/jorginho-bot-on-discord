@@ -58,7 +58,7 @@ client.on('message', (message: any): void | boolean => {
 	const guild:    string        = message.guild.name;
 	const username: string        = message.author.username;
 	const userId:   string        = message.author.id;
-	const args:     Array<string> = message.content.slice(1).trim().split(' ');
+	const args:     Array<string> = message.content.slice(CMD_PREFIX.length).trim().split(' ');
 
 	if (!blackListCheck(guild) || checkOwnerId(userId)) {
 		const messageLog: string = `[${guild} at ${new Date().toLocaleString()}]<${userId}>${username}: ${message.content}`;

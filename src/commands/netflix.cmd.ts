@@ -32,7 +32,7 @@ export const indication_ = async (message: any): Promise<void> => {
 		.addField('Titulo:', indication.title)
 		.addField('Descrição:', translatedDesc)
 		.addField('Nota no IMDB:', indication.imdbRating, true)
-		.addField('Tipo:', indication.contentType, true)
+		.addField('Tipo:', indication.contentType[1], true)
 		.addField('Classificação indicativa', indication.classification, true);
 
 	return message.channel.send(embed);

@@ -29,8 +29,9 @@ import {
 // conversation module
 import { conversation } from './modules/botIA';
 
-// setup client and setup bot command prefix
+// setup client
 const client: Client = new Client();
+
 // setup all bot commands
 const commands: Array<Command> = command();
 // bot initial state
@@ -55,10 +56,11 @@ client.on('guildMemberAdd', async (member: any): Promise<void> => {
 // on send message
 client.on('message', (message: any): void | boolean => {
 	// main definitions
-	const guild:    string        = message.guild.name;
-	const username: string        = message.author.username;
-	const userId:   string        = message.author.id;
-	const args:     Array<string> = message.content.slice(CMD_PREFIX.length).trim().split(' ');
+	const guild:     string        = message.guild.name;
+	const username:  string        = message.author.username;
+	const userId:    string        = message.author.id;
+	const args:      Array<string> = message.content.slice(CMD_PREFIX.length).trim().split(' ');
+	const messageLC: string        = message.content.toLowerCase();
 
 	if (!blackListCheck(guild) || checkOwnerId(userId)) {
 		const messageLog: string = `[${guild} at ${new Date().toLocaleString()}]<${userId}>${username}: ${message.content}`;
@@ -74,17 +76,17 @@ client.on('message', (message: any): void | boolean => {
 
 		const sendMessageFunction = (text: string): any => message.channel.send(text);
 
-		if (message.content == `${CMD_PREFIX}power off` && checkOwnerId(userId)) {
+		if (messageLC == `${CMD_PREFIX}power off` && checkOwnerId(userId)) {
 			ON = false;
 			predefinedActivity(client);
 
 			return sendMessageFunction('Câmbio desligo!');
-		} else if (message.content == `${CMD_PREFIX}power on` && checkOwnerId(userId)) {
+		} else if (messageLC == `${CMD_PREFIX}power on` && checkOwnerId(userId)) {
 			ON = true;
 			predefinedActivity(client);
 
 			return sendMessageFunction('Voltei');
-		} else if (message.content.startsWith(`${CMD_PREFIX}power`) && !checkOwnerId(userId)) {
+		} else if (messageLC.startsWith(`${CMD_PREFIX}power`) && !checkOwnerId(userId)) {
 			const owners:        Array<string> = owner_id;
 			let editedOwnersArr: Array<string> = [];
 	
@@ -97,9 +99,9 @@ client.on('message', (message: any): void | boolean => {
 			return sendMessageFunction(`Comando disponivel somente para ${editedOwners} não sou obrigado a te obdecer seu tchola!`);
 		}
 
-		if (ON || (checkOwnerId(userId) && message.content.startsWith(CMD_PREFIX))) {
+		if (ON || (checkOwnerId(userId) && messageLC.startsWith(CMD_PREFIX))) {
 			// check if message has a command
-			if (message.content.startsWith(CMD_PREFIX)) {
+			if (messageLC.startsWith(CMD_PREFIX)) {
 				// test user join
 				if (args[0] == 'join') {
 					return client.emit('guildMemberAdd', message.member);
@@ -140,10 +142,10 @@ client.on('message', (message: any): void | boolean => {
 						const trasformedMsg: string = await messageEngine(message, { message: botMessage, creator_id: 'guest' });
 
 						return sendMessageFunction(trasformedMsg);
-					})(message.content);
+					})(messageLC);
 				}
 			}
-		} else if (message.content.startsWith(CMD_PREFIX)) {
+		} else if (messageLC.startsWith(CMD_PREFIX)) {
 			return sendMessageFunction('Estou indisponivel no momento, tente mais tarde...');
 		}
 	}

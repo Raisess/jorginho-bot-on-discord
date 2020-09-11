@@ -1,9 +1,19 @@
 import fetch from 'node-fetch';
 
+import { CMD_PREFIX } from '../credencials.json';
+
+interface ICommand {
+	guild:      string;
+	creator_id: string;
+	creator:    string;
+	command:    string;
+	message:    string;
+}
+
 export const createCommand = async (message: any, args: Array<string> | undefined, uri: string | undefined): Promise<void> => {
 	const getMessageText: string = args ? args.slice(1).join(' ') : '';
 
-	const command = {
+	const command: ICommand = {
 		guild:       message.guild.name,
 		creator_id:  message.author.id,
 		creator:     message.author.username,
@@ -21,7 +31,7 @@ export const createCommand = async (message: any, args: Array<string> | undefine
 	const data: any = await request.json();
 
 	if (data.success) {
-		return message.channel.send(`Comando !${command.command} criado com sucesso!`);
+		return message.channel.send(`Comando '${CMD_PREFIX}${command.command}' criado com sucesso!`);
 	}
 
 	return message.channel.send('Oops não consegui criar o comando, tente novamente...');

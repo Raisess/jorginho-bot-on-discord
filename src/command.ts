@@ -49,7 +49,7 @@ export const command = (): Array<Command> => {
 			func: (param: Params): void => ban(param.message)
 		},
 		{
-			cmd: 'eval',
+			cmd: '=>',
 			description: 'Eval de código.',
 			func: (param: Params): void => evalCommand(param.message, param.args)
 		},

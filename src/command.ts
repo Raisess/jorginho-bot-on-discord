@@ -74,7 +74,7 @@ export const command = (): Array<Command> => {
 			func: async (param: Params): Promise<void> => await wiki(param.message, param.args)
 		},
 		{
-			cmd: 'exec',
+			cmd: '>',
 			description: 'Executar um comando no terminal via mensagem',
 			func: (param: Params): void => execCommand(param.message, param.args)
 		},

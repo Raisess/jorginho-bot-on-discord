@@ -56,24 +56,23 @@ client.on('guildMemberAdd', async (member: any): Promise<void> => {
 // on send message
 client.on('message', (message: any): void | boolean => {
 	// main definitions
-	const guild:     string        = message.guild.name;
-	const username:  string        = message.author.username;
-	const userId:    string        = message.author.id;
-	const args:      Array<string> = message.content.slice(CMD_PREFIX.length).trim().split(' ');
-	const messageLC: string        = message.content.toLowerCase();
+	const guild:      string        = message.guild.name;
+	const username:   string        = message.author.username;
+	const userId:     string        = message.author.id;
+	const args:       Array<string> = message.content.slice(CMD_PREFIX.length).trim().split(' ');
+	const messageLC:  string        = message.content.toLowerCase();
+	const messageLog: string        = `[${guild} at ${new Date().toLocaleString()}]<${userId}>${username}: ${message.content}`;
+
+	if (message.author.bot) {
+		// show message on console
+		console.log(messageLog);	
+		return;
+	}
+
+	// show message on console
+	console.log(messageLog);
 
 	if (!blackListCheck(guild) || checkOwnerId(userId)) {
-		const messageLog: string = `[${guild} at ${new Date().toLocaleString()}]<${userId}>${username}: ${message.content}`;
-
-		if (message.author.bot) {
-			// show message on console
-			console.log(messageLog);	
-			return;
-		}
-
-		// show message on console
-		console.log(messageLog);
-
 		const sendMessageFunction = (text: string): any => message.channel.send(text);
 
 		if (messageLC == `${CMD_PREFIX}power off` && checkOwnerId(userId)) {

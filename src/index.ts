@@ -61,7 +61,7 @@ client.on('message', (message: any): void | boolean => {
 	const userId:     string        = message.author.id;
 	const args:       Array<string> = message.content.slice(CMD_PREFIX.length).trim().split(' ');
 	const messageLC:  string        = message.content.toLowerCase();
-	const messageLog: string        = `[${guild} at ${new Date().toLocaleString()}]<${userId}>${username}: ${message.content}`;
+	const messageLog: string        = `[${guild} at ${new Date().toLocaleString()}]<id: ${userId} | owner: ${checkOwnerId(userId)}>${username}: ${message.content}`;
 
 	if (message.author.bot) {
 		// show message on console

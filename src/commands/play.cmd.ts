@@ -14,14 +14,8 @@ interface IMusic {
 let queue: Array<IMusic> = [];
 
 export const play = async (message: any, args: Array<string> | undefined, client: Client): Promise<boolean | any> => {
-	const voiceChannel: any = message.member.voice.channel;
-
 	const music: string        = args ? args.join(" ") : "";
 	let musicId: Array<string> = ["", ""];
-
-	if (music != "stop" && music != "skip") {
-		message.channel.send(`Música adicionada a fila: ${music}`);
-	}
 
 	// play music with direct link
 	if (music.startsWith("https://")) {
@@ -32,7 +26,8 @@ export const play = async (message: any, args: Array<string> | undefined, client
 		}
 
 		console.log("music added:", music);
-		
+		message.channel.send(`Música adicionada a fila: ${music}`);
+	
 		queue.push({
 			id:     musicId[1],
 			url:    music,
@@ -42,13 +37,15 @@ export const play = async (message: any, args: Array<string> | undefined, client
 		console.log("music queue:", queue);
 	
 		if (queue.length == 1) {
-			return playMusic(message, client, queue[0].url, queue[0].id, voiceChannel);
+			return playMusic(message, client, queue[0].url, queue[0].id);
 		}
 
 		return true;
 	} else {
 		// play music with name
 		if (music == "stop") {
+			const voiceChannel: any = message.member.voice.channel;
+			
 			voiceChannel.leave();
 			message.channel.send(`Tá bem <@${message.author.id}>, eu paro chatx`);
 
@@ -60,9 +57,17 @@ export const play = async (message: any, args: Array<string> | undefined, client
 
 			console.log("music queue:", queue);
 		
-			return playMusic(message, client, queue[0].url, queue[0].id, voiceChannel);
+			return playMusic(message, client, queue[0].url, queue[0].id);
+		} else if(music == "clean") {
+			queue = [queue[0]];
+
+			console.log(queue);
+			message.channel.send("A fila de músicas foi limpa!");
+
+			return true;
 		} else {
 			console.log("music added:", music);
+			message.channel.send(`Música adicionada a fila: ${music}`);
 
 			const res:      any        = await yts(music);
 			const videos:   Array<any> = await res.videos;
@@ -81,21 +86,24 @@ export const play = async (message: any, args: Array<string> | undefined, client
 	}
 
 	if (queue.length == 1) {
-		return playMusic(message, client, queue[0].url, queue[0].id, voiceChannel);
+		return playMusic(message, client, queue[0].url, queue[0].id);
 	}
 
 	return true;
 }
 
-const playMusic = async (message: any, client: Client, music: string, musicId: string, voiceChannel: any): Promise<boolean | any> => {	
+const playMusic = async (message: any, client: Client, music: string, musicId: string): Promise<boolean | any> => {	
 	try {
  		// voice connection
-		const connection: any = await voiceChannel.join();
-		const dispatcher: any = await connection.play(await ytdl(music), { type: "opus" });
+		const voiceChannel: any = message.member.voice.channel;
+		const connection:   any = await voiceChannel.join();
+		const dispatcher:   any = await connection.play(await ytdl(music, { quality: "highestaudio", filter: "audioonly" }),
+																										                  { volume: false, type: "opus", highWaterMark: 15 });
 
 		// music info
 		const info:         any = await ytdl.getInfo(musicId);
 		const videoDetails: any = info.player_response.videoDetails;
+
 		const musicName: string = videoDetails.title;
 		const thumbnail: string = videoDetails.thumbnail.thumbnails[3].url;
 		const author:    string = videoDetails.author;
@@ -124,7 +132,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: s
 			queue.shift();
 
 			if (queue.length > 0) {
-				return playMusic(message, client, queue[0].url, queue[0].id, voiceChannel);
+				return playMusic(message, client, queue[0].url, queue[0].id);
 			}
 
    		voiceChannel.leave();
@@ -139,7 +147,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: s
 			queue.shift();
 
 			if (queue.length > 0) {
-				return playMusic(message, client, queue[0].url, queue[0].id, voiceChannel);
+				return playMusic(message, client, queue[0].url, queue[0].id);
 			}
 
    		voiceChannel.leave();
@@ -150,6 +158,7 @@ const playMusic = async (message: any, client: Client, music: string, musicId: s
 			return false;
 		});
 	} catch (e) {
+		console.error(e);
 		message.channel.send(e.message, { code: "xl" });
 
 		return true;

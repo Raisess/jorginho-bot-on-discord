@@ -59,9 +59,9 @@ export const play = async (message: any, args: Array<string> | undefined, client
 		
 			return playMusic(message, client, queue[0].url, queue[0].id);
 		} else if(music == "clean") {
-			queue = [queue[0]];
+			queue = [];
 
-			console.log(queue);
+			console.log("music queue:", queue);
 			message.channel.send("A fila de músicas foi limpa!");
 
 			return true;

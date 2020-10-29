@@ -6,9 +6,10 @@ import { checkOwnerId } from '../utils/checkOwnerId';
 export const execCommand = (message: any, args: Array<string> | undefined): void => {
 	const authorId:  string = message.author.id;
 	const argsJoin:  string = args ? args.join(' ') : '';
-	const execution: any    = exec(argsJoin);
 
 	if (checkOwnerId(authorId)) {
+		const execution: any    = exec(argsJoin);
+		
 		if (execution.stdout.length < 2000) {
 			if (execution.stdout.length == 0) {
 				return;

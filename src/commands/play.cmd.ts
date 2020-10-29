@@ -35,12 +35,6 @@ export const play = async (message: any, args: Array<string> | undefined, client
 		});
 
 		console.log("music queue:", queue);
-	
-		if (queue.length == 1) {
-			return playMusic(message, client, queue[0].url, queue[0].id);
-		}
-
-		return true;
 	} else {
 		// play music with name
 		if (music == "stop") {
